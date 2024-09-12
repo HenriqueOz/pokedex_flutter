@@ -14,8 +14,8 @@ class PokedexModule {
         Provider(create: (context) => PokemonRepository())
       ],
       child: BlocProvider<PokedexBloc>(
-        create: (context) => PokedexBloc(pokemonRepository: context.read<PokemonRepository>())..add(PokedexEventLoad(quantity: 5)),
-        child: PokedexPage(),
+        create: (context) => PokedexBloc(pokemonRepository: context.read<PokemonRepository>())..add(PokedexEventLoad()),
+        child: const PokedexPage(),
       ),
     ),
   };

@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'dart:ui';
+
+import 'package:pokedex_app/app/core/ui/pokemon_color.dart';
 
 class PokemonModel {
   final int id;
@@ -7,6 +10,9 @@ class PokemonModel {
   final String typePrimary;
   String? typeSecondary;
   final String imageUrl;
+  final String typePrimaryIconUrl;
+  String? typeSecondaryIconUrl;
+  Color? primaryColor;
 
   PokemonModel({
     required this.id,
@@ -14,7 +20,7 @@ class PokemonModel {
     required this.typePrimary,
     this.typeSecondary,
     required this.imageUrl,
-  });
+  })  : typePrimaryIconUrl = 'assets/images/types/${typePrimary}_type_icon.png', primaryColor = PokemonColor.primaryColor[typePrimary];
 
   PokemonModel copyWith({
     int? id,
@@ -42,6 +48,7 @@ class PokemonModel {
 
     if (map['types'].length > 1) {
       model.typeSecondary = map['types'][1]['type']['name'] as String;
+      model.typeSecondaryIconUrl = 'assets/images/types/${model.typeSecondary}_type_icon.png';
     }
 
     return model;
@@ -56,12 +63,13 @@ class PokemonModel {
         name: 'MissingNo.',
         typePrimary: 'undefined',
         typeSecondary: 'undefined',
-        imageUrl: 'https://static.wikia.nocookie.net/pokemontowerdefense/images/c/ce/Missingno_image.png/revision/latest?cb=20180809204127',
+        imageUrl:
+            'https://static.wikia.nocookie.net/pokemontowerdefense/images/c/ce/Missingno_image.png/revision/latest?cb=20180809204127',
       );
 
   @override
   String toString() {
-    return 'PokemonModel(id: $id, name: $name, typePrimary: $typePrimary, typeSecondary: $typeSecondary, imageUrl: $imageUrl)';
+    return 'PokemonModel(id: $id, name: $name, typePrimary: $typePrimary, typeSecondary: $typeSecondary, imageUrl: $imageUrl, typePrimaryIconUrl: $typePrimaryIconUrl, typeSecondaryIconUrl: $typeSecondaryIconUrl)';
   }
 
   @override

@@ -15,6 +15,12 @@ class CustomTheme {
     fontSize: 16,
   );
 
+  static const TextStyle pokedexLabels = TextStyle(
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    fontSize: 16,
+  );
+
   static final themeData = ThemeData().copyWith(
     textTheme: GoogleFonts.chivoTextTheme(),
   );
