@@ -15,6 +15,12 @@ class CustomTheme {
     fontSize: 16,
   );
 
+  static TextStyle hint = TextStyle(
+    color: Colors.grey.shade400,
+    fontWeight: FontWeight.bold,
+    fontSize: 16,
+  );
+
   static const TextStyle pokedexLabels = TextStyle(
     fontWeight: FontWeight.bold,
     color: Colors.white,

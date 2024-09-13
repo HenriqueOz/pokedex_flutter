@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:ui';
 
-import 'package:pokedex_app/app/core/ui/pokemon_color.dart';
+import 'package:pokedex_app/app/core/pokemon_data/pokemon_color.dart';
 
 class PokemonModel {
   final int id;
@@ -20,7 +20,8 @@ class PokemonModel {
     required this.typePrimary,
     this.typeSecondary,
     required this.imageUrl,
-  })  : typePrimaryIconUrl = 'assets/images/types/${typePrimary}_type_icon.png', primaryColor = PokemonColor.primaryColor[typePrimary];
+  })  : typePrimaryIconUrl = 'assets/images/types/${typePrimary}_type_icon.png',
+        primaryColor = PokemonColor.primaryColor[typePrimary];
 
   PokemonModel copyWith({
     int? id,

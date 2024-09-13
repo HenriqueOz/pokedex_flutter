@@ -6,10 +6,10 @@ class PokedexHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        child: const Column(
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: SizedBox(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
