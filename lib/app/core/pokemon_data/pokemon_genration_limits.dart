@@ -1,10 +1,10 @@
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_generation_enum.dart';
 
 class PokemonGenrationLimits {
-  Map<String, int> getGenerationRange(PokemonGenerationEnum generation) {
-    int offset = 0;
-    int limit = 1;
+  static int offset = 0;
+  static int limit = 1;
 
+  static void setGenerationRange(PokemonGenerationEnum generation) {
     switch (generation) {
       case PokemonGenerationEnum.gen1:
         offset = 0;
@@ -43,10 +43,5 @@ class PokemonGenrationLimits {
         limit = 120;
         break;
     }
-
-    return {
-      'offset': offset,
-      'limit': limit,
-    };
   }
 }

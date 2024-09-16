@@ -13,10 +13,7 @@ class PokedexModule {
     '/pokedex/': (BuildContext context) => MultiBlocProvider(
           providers: [
             Provider(create: (context) => PokemonRepository()),
-            BlocProvider(
-                create: (context) =>
-                    PokedexBloc(pokemonRepository: context.read<PokemonRepository>())
-                      ..add(PokedexEventLoad())),
+            BlocProvider(create: (context) => PokedexBloc(pokemonRepository: context.read<PokemonRepository>())..add(PokedexEventLoad())),
             BlocProvider(create: (context) => PokedexScrollBloc()),
           ],
           child: const PokedexPage(),

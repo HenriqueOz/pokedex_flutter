@@ -27,6 +27,21 @@ class CustomTheme {
     fontSize: 16,
   );
 
+  static const ButtonStyle primaryButton = ButtonStyle(
+    backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+    textStyle: WidgetStatePropertyAll(body),
+    foregroundColor: WidgetStatePropertyAll(Colors.grey),
+    shape: WidgetStatePropertyAll(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        side: BorderSide(
+          color: Colors.grey,
+          width: 1,
+        ),
+      ),
+    ),
+  );
+
   static final themeData = ThemeData().copyWith(
     textTheme: GoogleFonts.chivoTextTheme(),
   );

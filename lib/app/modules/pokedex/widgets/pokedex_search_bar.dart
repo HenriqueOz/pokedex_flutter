@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/pokedex_search_input.dart';
 
 class PokedexSearchBar extends StatelessWidget {
