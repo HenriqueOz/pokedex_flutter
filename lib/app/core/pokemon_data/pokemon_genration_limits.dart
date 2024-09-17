@@ -39,7 +39,7 @@ class PokemonGenrationLimits {
         limit = 96;
         break;
       case PokemonGenerationEnum.gen9:
-        offset = 915;
+        offset = 905;
         limit = 120;
         break;
     }

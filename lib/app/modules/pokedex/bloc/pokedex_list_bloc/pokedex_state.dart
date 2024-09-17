@@ -6,26 +6,20 @@ class PokedexStateInit extends PokedexState {}
 
 class PokedexStateFetchPokemon extends PokedexState {
   final List<PokemonModel> pokemonModelList;
-  final bool isLoading;
+  final bool canLoad;
   final PokemonGenerationEnum generation;
-  PokedexStateFetchPokemon({required this.pokemonModelList, required this.isLoading, required this.generation});
+  PokedexStateFetchPokemon({required this.pokemonModelList, required this.canLoad, required this.generation});
 }
 
 class PokedexStateLoading extends PokedexState {
   final List<PokemonModel> pokemonModelListHolder;
-  final bool isLoading;
+  final bool canLoad;
   final PokemonGenerationEnum generation;
-  PokedexStateLoading({required this.pokemonModelListHolder, required this.isLoading, required this.generation});
-}
-
-class PokedexStateChangeGen extends PokedexState {
-  final List<PokemonModel> pokemonModelListHolder;
-  final bool isLoading;
-  final PokemonGenerationEnum generation;
-  PokedexStateChangeGen({required this.pokemonModelListHolder, required this.isLoading, required this.generation});
+  PokedexStateLoading({required this.pokemonModelListHolder, required this.canLoad, required this.generation});
 }
 
 class PokedexStateError extends PokedexState {
   final String error;
-  PokedexStateError({required this.error});
+  final List<PokemonModel> pokemonModelListHolder;
+  PokedexStateError({required this.pokemonModelListHolder, required this.error});
 }

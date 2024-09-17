@@ -5,9 +5,9 @@ import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_list_bloc/pokedex_bloc.dart';
 
 class PokedexGenFilter extends StatelessWidget {
-  PokemonGenerationEnum selectedGeneration;
+  final PokemonGenerationEnum selectedGeneration;
 
-  PokedexGenFilter({required this.selectedGeneration, super.key});
+  const PokedexGenFilter({required this.selectedGeneration, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,9 @@ class PokedexGenFilter extends StatelessWidget {
                           PokedexEventChangeGen(generation: PokemonGenerationEnum.values[index]),
                         );
                   },
-                  style: CustomTheme.primaryButton.copyWith(
-                    backgroundColor: WidgetStatePropertyAll(
-                      selectedGeneration == PokemonGenerationEnum.values[index] ? Colors.red : Colors.transparent,
-                    ),
-                  ),
+                  style: selectedGeneration == PokemonGenerationEnum.values[index]
+                      ? CustomTheme.primaryButton.copyWith(backgroundColor: WidgetStatePropertyAll(CustomTheme.primaryColor.withOpacity(0.75)))
+                      : CustomTheme.secondaryButton,
                   child: Text('Gen ${index + 1}'),
                 ),
               ),

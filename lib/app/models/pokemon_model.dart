@@ -55,17 +55,15 @@ class PokemonModel {
     return model;
   }
 
-  factory PokemonModel.fromJson(String source) =>
-      PokemonModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PokemonModel.fromJson(String source) => PokemonModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   //* Modelo que retorna um MissingNo (Ufffff Referências)
   factory PokemonModel.missingNo() => PokemonModel(
-        id: 000,
+        id: 0,
         name: 'MissingNo.',
-        typePrimary: 'undefined',
-        typeSecondary: 'undefined',
-        imageUrl:
-            'https://static.wikia.nocookie.net/pokemontowerdefense/images/c/ce/Missingno_image.png/revision/latest?cb=20180809204127',
+        typePrimary: 'normal',
+        typeSecondary: null,
+        imageUrl: 'assets/images/missingno.png',
       );
 
   @override
@@ -86,10 +84,6 @@ class PokemonModel {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        name.hashCode ^
-        typePrimary.hashCode ^
-        typeSecondary.hashCode ^
-        imageUrl.hashCode;
+    return id.hashCode ^ name.hashCode ^ typePrimary.hashCode ^ typeSecondary.hashCode ^ imageUrl.hashCode;
   }
 }

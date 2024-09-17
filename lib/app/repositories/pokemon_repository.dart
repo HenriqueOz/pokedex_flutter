@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:pokedex_app/app/core/exceptions/message_exception.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
@@ -11,16 +13,12 @@ class PokemonRepository {
 
       if (response.statusCode == 200) {
         return PokemonModel.fromMap(response.data);
+      } else {
+        throw Exception();
       }
-    } on Exception {
-      MessageException(message: 'Erro ao carregar item');
+    } on Exception catch (e, s) {
+      log('Repository: Erro ao carregar feed', error: e, stackTrace: s);
+      throw MessageException(message: 'Erro ao carregar feed');
     }
-
-    return PokemonModel(
-      id: 000,
-      name: 'MissingNo.',
-      typePrimary: 'normal',
-      imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/MissingNo.svg/1200px-MissingNo.svg.png',
-    );
   }
 }

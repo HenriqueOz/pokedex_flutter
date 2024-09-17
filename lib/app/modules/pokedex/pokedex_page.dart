@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_generation_enum.dart';
+import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_scroll_bloc/pokedex_scroll_bloc.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_list_bloc/pokedex_bloc.dart';
@@ -21,6 +22,8 @@ class _PokedexPageState extends State<PokedexPage> {
   late ScrollController scrollController;
   PokemonGenerationEnum selectedGeneration = PokemonGenerationEnum.gen1;
   bool showScrollButton = false;
+  bool canLoad = false;
+  bool hasError = false;
 
   @override
   void initState() {
@@ -39,6 +42,12 @@ class _PokedexPageState extends State<PokedexPage> {
       context.read<PokedexScrollBloc>().add(PokedexScrollEventEnable());
     } else {
       context.read<PokedexScrollBloc>().add(PokedexScrollEventDisable());
+    }
+
+    if (scrollController.offset >= scrollController.position.maxScrollExtent * .99) {
+      if (canLoad && !hasError) {
+        context.read<PokedexBloc>().add(PokedexEventLoad());
+      }
     }
   }
 
@@ -60,10 +69,14 @@ class _PokedexPageState extends State<PokedexPage> {
         builder: (context, isActive) => Visibility(
           visible: isActive,
           child: FloatingActionButton(
-            backgroundColor: Colors.black,
+            backgroundColor: CustomTheme.primaryColor,
             onPressed: _scrollTop,
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100.0))),
-            child: const Icon(Icons.keyboard_arrow_up, color: Colors.white),
+            child: const Icon(
+              Icons.keyboard_arrow_up,
+              color: Colors.white,
+              size: 35,
+            ),
           ),
         ),
       ),
@@ -82,7 +95,6 @@ class _PokedexPageState extends State<PokedexPage> {
             //
             BlocSelector<PokedexBloc, PokedexState, PokemonGenerationEnum>(
               selector: (state) {
-                context.read<PokedexBloc>().add(PokedexEventLoad());
                 if (state is PokedexStateFetchPokemon) {
                   selectedGeneration = state.generation;
                 } else if (state is PokedexStateLoading) {
@@ -102,10 +114,10 @@ class _PokedexPageState extends State<PokedexPage> {
               selector: (state) {
                 if (state is PokedexStateLoading) {
                   return state.pokemonModelListHolder;
-                }
-
-                if (state is PokedexStateFetchPokemon) {
+                } else if (state is PokedexStateFetchPokemon) {
                   return state.pokemonModelList;
+                } else if (state is PokedexStateError) {
+                  return state.pokemonModelListHolder;
                 }
 
                 return <PokemonModel>[];
@@ -117,7 +129,7 @@ class _PokedexPageState extends State<PokedexPage> {
                 return Padding(
                   padding: const EdgeInsets.only(
                     top: 20,
-                    bottom: 90,
+                    bottom: 20,
                     left: 20,
                     right: 20,
                   ),
@@ -143,30 +155,61 @@ class _PokedexPageState extends State<PokedexPage> {
             //
             BlocSelector<PokedexBloc, PokedexState, bool>(
               selector: (state) {
-                bool isLoading = false;
-
                 if (state is PokedexStateLoading) {
-                  isLoading = state.isLoading;
+                  canLoad = state.canLoad;
                 } else if (state is PokedexStateFetchPokemon) {
-                  isLoading = state.isLoading;
+                  canLoad = state.canLoad;
+                } else if (state is PokedexStateError) {
+                  canLoad = false;
                 }
-
-                if (isLoading) {
-                  context.read<PokedexBloc>().add(PokedexEventLoad());
-                  return isLoading;
-                }
-                return false;
+                return canLoad;
               },
-              builder: (context, isLoading) {
+              builder: (context, canLoad) {
                 return Visibility(
-                  visible: isLoading,
-                  child: Container(
-                    padding: const EdgeInsets.all(30),
-                    child: const CircularProgressIndicator(),
+                  visible: canLoad,
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 30.0),
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
                   ),
                 );
               },
             ),
+            //
+            //* Botão para refresh quando ocorre algum erro no fetch
+            //
+            BlocSelector<PokedexBloc, PokedexState, String>(
+              selector: (state) {
+                if (state is PokedexStateError) {
+                  hasError = true;
+                  return state.error;
+                }
+                hasError = false;
+                return "";
+              },
+              builder: (context, message) {
+                return Visibility(
+                  visible: message.isNotEmpty,
+                  child: Column(
+                    children: [
+                      Text(
+                        message,
+                        style: CustomTheme.body,
+                      ),
+                      ElevatedButton(
+                        style: CustomTheme.primaryButton,
+                        onPressed: () {
+                          context.read<PokedexBloc>().add(PokedexEventLoad());
+                        },
+                        child: const Text('Tentar de novo'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 60),
           ],
         ),
       ),

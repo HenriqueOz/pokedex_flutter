@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme {
-  static const primary = Color(0xFFFF5B5B);
+  static const primaryColor = Color(0xFFFF5B5B);
 
   static const TextStyle title = TextStyle(
     color: Colors.black,
@@ -28,6 +28,18 @@ class CustomTheme {
   );
 
   static const ButtonStyle primaryButton = ButtonStyle(
+    backgroundColor: WidgetStatePropertyAll(primaryColor),
+    textStyle: WidgetStatePropertyAll(body),
+    elevation: WidgetStatePropertyAll(3),
+    foregroundColor: WidgetStatePropertyAll(Colors.white),
+    shape: WidgetStatePropertyAll(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+      ),
+    ),
+  );
+
+  static const ButtonStyle secondaryButton = ButtonStyle(
     backgroundColor: WidgetStatePropertyAll(Colors.transparent),
     textStyle: WidgetStatePropertyAll(body),
     foregroundColor: WidgetStatePropertyAll(Colors.grey),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
@@ -81,10 +82,22 @@ class PokedexPokemonCard extends StatelessWidget {
                 //* Imagem do pokemon
                 Align(
                   alignment: Alignment.center,
-                  child: Image.network(
-                    model.imageUrl,
-                    height: constraints.maxHeight - 40,
-                  ),
+                  child: () {
+                    if (model.id == 0) {
+                      return Image.asset(
+                        model.imageUrl,
+                        height: constraints.maxHeight - 40,
+                      );
+                    } else {
+                      return CachedNetworkImage(
+                        imageUrl: model.imageUrl,
+                        placeholder: (context, url) => Image.asset(
+                          'assets/images/card_background.png',
+                        ),
+                        height: constraints.maxHeight - 40,
+                      );
+                    }
+                  }(),
                 ),
               ],
             ),
