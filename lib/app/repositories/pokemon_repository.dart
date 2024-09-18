@@ -5,7 +5,6 @@ import 'package:pokedex_app/app/core/exceptions/message_exception.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 
 class PokemonRepository {
-  /// Procura um pokemon a partir de seu id na pokedéx
   Future<PokemonModel> getPokemonById({required int id}) async {
     try {
       final dio = Dio();

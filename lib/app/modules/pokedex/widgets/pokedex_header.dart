@@ -6,9 +6,10 @@ class PokedexHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: SizedBox(
+    return const Align(
+      alignment: Alignment.centerLeft,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -17,10 +18,10 @@ class PokedexHeader extends StatelessWidget {
               style: CustomTheme.title,
             ),
             SizedBox(
-              height: 8,
+              height: 10,
             ),
             Text(
-              'Definitivamente uma pokedéx, sem dúvida alguma um artifício tecnológico feito para listar criaturas de fantasia.',
+              'Explore a lista de Pokémons e descubra suas principais características.',
               style: CustomTheme.body,
             ),
           ],

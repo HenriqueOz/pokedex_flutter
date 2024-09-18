@@ -28,9 +28,15 @@ class PokedexGenFilter extends StatelessWidget {
                         );
                   },
                   style: selectedGeneration == PokemonGenerationEnum.values[index]
-                      ? CustomTheme.primaryButton.copyWith(backgroundColor: WidgetStatePropertyAll(CustomTheme.primaryColor.withOpacity(0.75)))
+                      ? CustomTheme.secondaryButton.copyWith(
+                          backgroundColor: const WidgetStatePropertyAll(CustomTheme.secondaryColor),
+                          foregroundColor: const WidgetStatePropertyAll(Colors.white),
+                        )
                       : CustomTheme.secondaryButton,
-                  child: Text('Gen ${index + 1}'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text('Gen ${index + 1}'),
+                  ),
                 ),
               ),
           ],

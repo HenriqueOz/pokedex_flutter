@@ -60,7 +60,6 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
         final oldList = currentState.pokemonModelList;
 
         emit(PokedexStateLoading(pokemonModelListHolder: oldList, canLoad: canLoad, generation: _generation));
-
         final list = await _fetchData(quantity: toLoad, offset: offset);
 
         emit(PokedexStateFetchPokemon(pokemonModelList: oldList + list, canLoad: canLoad, generation: _generation));

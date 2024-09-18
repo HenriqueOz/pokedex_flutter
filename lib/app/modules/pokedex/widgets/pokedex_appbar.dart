@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 
 class PokedexAppbar extends StatelessWidget implements PreferredSizeWidget {
   const PokedexAppbar({super.key});
@@ -7,6 +8,7 @@ class PokedexAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
+      backgroundColor: Colors.white,
       leading: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: IconButton(onPressed: () {}, icon: const Icon(Icons.sort)),
@@ -16,7 +18,10 @@ class PokedexAppbar extends StatelessWidget implements PreferredSizeWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: TextButton(
             onPressed: () {},
-            child: const Text('Filtrar'),
+            child: const Text(
+              'Filtrar',
+              style: CustomTheme.body,
+            ),
           ),
         ),
       ],

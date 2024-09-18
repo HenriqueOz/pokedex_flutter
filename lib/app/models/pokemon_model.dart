@@ -10,9 +10,11 @@ class PokemonModel {
   final String typePrimary;
   String? typeSecondary;
   final String imageUrl;
+  final String shinyImageUrl;
   final String typePrimaryIconUrl;
   String? typeSecondaryIconUrl;
   Color? primaryColor;
+  Color? secondaryColor;
 
   PokemonModel({
     required this.id,
@@ -20,8 +22,9 @@ class PokemonModel {
     required this.typePrimary,
     this.typeSecondary,
     required this.imageUrl,
+    required this.shinyImageUrl,
   })  : typePrimaryIconUrl = 'assets/images/types/${typePrimary}_type_icon.png',
-        primaryColor = PokemonColor.primaryColor[typePrimary];
+        primaryColor = PokemonTypeColor.colors[typePrimary];
 
   PokemonModel copyWith({
     int? id,
@@ -29,6 +32,7 @@ class PokemonModel {
     String? typePrimary,
     String? typeSecondary,
     String? imageUrl,
+    String? shinyImageUrl,
   }) {
     return PokemonModel(
       id: id ?? this.id,
@@ -36,6 +40,7 @@ class PokemonModel {
       typePrimary: typePrimary ?? this.typePrimary,
       typeSecondary: typeSecondary ?? this.typeSecondary,
       imageUrl: imageUrl ?? this.imageUrl,
+      shinyImageUrl: shinyImageUrl ?? this.shinyImageUrl,
     );
   }
 
@@ -45,11 +50,13 @@ class PokemonModel {
       name: map['name'] as String,
       typePrimary: map['types'][0]['type']['name'] as String,
       imageUrl: map['sprites']['other']['official-artwork']['front_default'] as String,
+      shinyImageUrl: map['sprites']['other']['official-artwork']['front_shiny'] as String,
     );
 
     if (map['types'].length > 1) {
       model.typeSecondary = map['types'][1]['type']['name'] as String;
       model.typeSecondaryIconUrl = 'assets/images/types/${model.typeSecondary}_type_icon.png';
+      model.secondaryColor = PokemonTypeColor.colors[model.typeSecondary];
     }
 
     return model;
@@ -59,31 +66,15 @@ class PokemonModel {
 
   //* Modelo que retorna um MissingNo (Ufffff Referências)
   factory PokemonModel.missingNo() => PokemonModel(
-        id: 0,
-        name: 'MissingNo.',
-        typePrimary: 'normal',
-        typeSecondary: null,
-        imageUrl: 'assets/images/missingno.png',
-      );
+      id: 0,
+      name: 'MissingNo.',
+      typePrimary: 'normal',
+      typeSecondary: null,
+      imageUrl: 'assets/images/missingno.png',
+      shinyImageUrl: 'assets/images/missingno.png');
 
   @override
   String toString() {
     return 'PokemonModel(id: $id, name: $name, typePrimary: $typePrimary, typeSecondary: $typeSecondary, imageUrl: $imageUrl, typePrimaryIconUrl: $typePrimaryIconUrl, typeSecondaryIconUrl: $typeSecondaryIconUrl)';
-  }
-
-  @override
-  bool operator ==(covariant PokemonModel other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.name == name &&
-        other.typePrimary == typePrimary &&
-        other.typeSecondary == typeSecondary &&
-        other.imageUrl == imageUrl;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^ name.hashCode ^ typePrimary.hashCode ^ typeSecondary.hashCode ^ imageUrl.hashCode;
   }
 }

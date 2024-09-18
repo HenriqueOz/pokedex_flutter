@@ -9,22 +9,41 @@ class PokedexSearchInput extends StatefulWidget {
 }
 
 class _PokedexSearchInputState extends State<PokedexSearchInput> {
-  final searchEC = TextEditingController();
+  final _searchEC = TextEditingController();
 
   @override
   void dispose() {
-    searchEC.dispose();
+    _searchEC.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTapOutside: (event) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      controller: _searchEC,
       decoration: InputDecoration(
         hintText: 'Pokemon Name',
         hintStyle: CustomTheme.hint,
         border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
         contentPadding: const EdgeInsets.all(12),
+        focusedBorder: const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderSide: BorderSide(
+            color: CustomTheme.primaryColor,
+          ),
+        ),
+        suffixIcon: IconButton(
+          onPressed: () {
+            _searchEC.clear();
+          },
+          icon: const Icon(
+            Icons.clear,
+            size: 20,
+          ),
+        ),
       ),
     );
   }

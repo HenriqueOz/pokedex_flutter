@@ -9,7 +9,7 @@ import 'package:pokedex_app/app/repositories/pokemon_repository.dart';
 import 'package:provider/provider.dart';
 
 class PokedexModule {
-  final routers = <String, WidgetBuilder>{
+  static final routers = <String, WidgetBuilder>{
     '/pokedex/': (BuildContext context) => MultiBlocProvider(
           providers: [
             Provider(create: (context) => PokemonRepository()),

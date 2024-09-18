@@ -38,7 +38,7 @@ class _PokedexPageState extends State<PokedexPage> {
   }
 
   void _scrollWatcher() {
-    if (scrollController.offset > 100.0) {
+    if (scrollController.offset > 300.0) {
       context.read<PokedexScrollBloc>().add(PokedexScrollEventEnable());
     } else {
       context.read<PokedexScrollBloc>().add(PokedexScrollEventDisable());
@@ -59,37 +59,52 @@ class _PokedexPageState extends State<PokedexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PokedexAppbar(),
-      floatingActionButton: BlocSelector<PokedexScrollBloc, PokedexScrollState, bool>(
-        selector: (state) {
-          if (state is PokedexScrollData) {
-            return state.isActive;
-          }
-          return false;
-        },
-        builder: (context, isActive) => Visibility(
-          visible: isActive,
-          child: FloatingActionButton(
-            backgroundColor: CustomTheme.primaryColor,
-            onPressed: _scrollTop,
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100.0))),
-            child: const Icon(
-              Icons.keyboard_arrow_up,
-              color: Colors.white,
-              size: 35,
-            ),
+      floatingActionButton: BlocSelector<PokedexScrollBloc, PokedexScrollState, bool>(selector: (state) {
+        if (state is PokedexScrollData) {
+          return state.isActive;
+        }
+        return false;
+      }, builder: (context, isActive) {
+        return TweenAnimationBuilder(
+          tween: Tween<double>(
+            begin: isActive ? 0 : 1,
+            end: isActive ? 1 : 0,
           ),
-        ),
-      ),
+          duration: const Duration(milliseconds: 150),
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: value,
+              child: FloatingActionButton(
+                backgroundColor: CustomTheme.primaryColor,
+                onPressed: _scrollTop,
+                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100.0))),
+                child: const Icon(
+                  Icons.keyboard_arrow_up,
+                  color: Colors.white,
+                  size: 35,
+                ),
+              ),
+            );
+          },
+        );
+      }),
       body: SingleChildScrollView(
         controller: scrollController,
         physics: const ScrollPhysics(), //* Precisa disso aqui pra definir como scroll padrão
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 30,
             ),
             const PokedexHeader(),
             const PokedexSearchBar(),
+            const Divider(
+              height: 40,
+              endIndent: 80,
+              indent: 80,
+              thickness: .5,
+            ),
             //
             //* Listener que atualiza o filtro selecionado
             //
@@ -165,12 +180,15 @@ class _PokedexPageState extends State<PokedexPage> {
                 return canLoad;
               },
               builder: (context, canLoad) {
-                return Visibility(
-                  visible: canLoad,
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 30.0),
-                    child: CircularProgressIndicator(
-                      color: Colors.black,
+                return Align(
+                  alignment: Alignment.center,
+                  child: Visibility(
+                    visible: canLoad,
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 30.0),
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 );
@@ -189,22 +207,25 @@ class _PokedexPageState extends State<PokedexPage> {
                 return "";
               },
               builder: (context, message) {
-                return Visibility(
-                  visible: message.isNotEmpty,
-                  child: Column(
-                    children: [
-                      Text(
-                        message,
-                        style: CustomTheme.body,
-                      ),
-                      ElevatedButton(
-                        style: CustomTheme.primaryButton,
-                        onPressed: () {
-                          context.read<PokedexBloc>().add(PokedexEventLoad());
-                        },
-                        child: const Text('Tentar de novo'),
-                      ),
-                    ],
+                return Align(
+                  alignment: Alignment.center,
+                  child: Visibility(
+                    visible: message.isNotEmpty,
+                    child: Column(
+                      children: [
+                        Text(
+                          message,
+                          style: CustomTheme.body,
+                        ),
+                        ElevatedButton(
+                          style: CustomTheme.primaryButton,
+                          onPressed: () {
+                            context.read<PokedexBloc>().add(PokedexEventLoad());
+                          },
+                          child: const Text('Tentar de novo'),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

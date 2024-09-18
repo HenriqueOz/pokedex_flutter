@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-class PokemonColor {
-  static final Map<String, Color> primaryColor = {
+class PokemonTypeColor {
+  static final Map<String, Color> colors = {
     'normal': const Color(0xFFA8A77A),
     'poison': const Color(0xFFA33EA1),
     'psychic': const Color(0xFFF95587),

@@ -12,7 +12,6 @@ class PokedexSearchBar extends StatelessWidget {
         right: 20,
         left: 20,
         top: 30,
-        bottom: 10,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
