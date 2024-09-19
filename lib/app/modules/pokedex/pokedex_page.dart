@@ -5,11 +5,11 @@ import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_scroll_bloc/pokedex_scroll_bloc.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_list_bloc/pokedex_bloc.dart';
-import 'package:pokedex_app/app/modules/pokedex/widgets/pokedex_appbar.dart';
-import 'package:pokedex_app/app/modules/pokedex/widgets/pokedex_gen_filter.dart';
-import 'package:pokedex_app/app/modules/pokedex/widgets/pokedex_header.dart';
-import 'package:pokedex_app/app/modules/pokedex/widgets/pokedex_pokemon_card.dart';
-import 'package:pokedex_app/app/modules/pokedex/widgets/pokedex_search_bar.dart';
+import 'package:pokedex_app/app/modules/pokedex/widgets/header/pokedex_appbar.dart';
+import 'package:pokedex_app/app/modules/pokedex/widgets/list/pokedex_gen_filter.dart';
+import 'package:pokedex_app/app/modules/pokedex/widgets/header/pokedex_header.dart';
+import 'package:pokedex_app/app/modules/pokedex/widgets/list/pokedex_pokemon_card.dart';
+import 'package:pokedex_app/app/modules/pokedex/widgets/header/pokedex_search_bar.dart';
 
 class PokedexPage extends StatefulWidget {
   const PokedexPage({super.key});
@@ -59,35 +59,38 @@ class _PokedexPageState extends State<PokedexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PokedexAppbar(),
-      floatingActionButton: BlocSelector<PokedexScrollBloc, PokedexScrollState, bool>(selector: (state) {
-        if (state is PokedexScrollData) {
-          return state.isActive;
-        }
-        return false;
-      }, builder: (context, isActive) {
-        return TweenAnimationBuilder(
-          tween: Tween<double>(
-            begin: isActive ? 0 : 1,
-            end: isActive ? 1 : 0,
-          ),
-          duration: const Duration(milliseconds: 150),
-          builder: (context, value, child) {
-            return Transform.scale(
-              scale: value,
-              child: FloatingActionButton(
-                backgroundColor: CustomTheme.primaryColor,
-                onPressed: _scrollTop,
-                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100.0))),
-                child: const Icon(
-                  Icons.keyboard_arrow_up,
-                  color: Colors.white,
-                  size: 35,
+      floatingActionButton: BlocSelector<PokedexScrollBloc, PokedexScrollState, bool>(
+        selector: (state) {
+          if (state is PokedexScrollData) {
+            return state.isActive;
+          }
+          return false;
+        },
+        builder: (context, isActive) {
+          return TweenAnimationBuilder(
+            tween: Tween<double>(
+              begin: isActive ? 0 : 1,
+              end: isActive ? 1 : 0,
+            ),
+            duration: const Duration(milliseconds: 150),
+            builder: (context, value, child) {
+              return Transform.scale(
+                scale: value,
+                child: FloatingActionButton(
+                  backgroundColor: CustomTheme.primaryColor,
+                  onPressed: _scrollTop,
+                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100.0))),
+                  child: const Icon(
+                    Icons.keyboard_arrow_up,
+                    color: Colors.white,
+                    size: 35,
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      }),
+              );
+            },
+          );
+        },
+      ),
       body: SingleChildScrollView(
         controller: scrollController,
         physics: const ScrollPhysics(), //* Precisa disso aqui pra definir como scroll padrão

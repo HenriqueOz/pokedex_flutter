@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pokedex_app/app/core/formatter/formatter.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
-import 'package:pokedex_app/app/modules/pokemon/pokemon_page.dart';
 
 class PokedexPokemonCard extends StatelessWidget {
   final PokemonModel model;
@@ -16,25 +16,7 @@ class PokedexPokemonCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.push(
-          context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return PokemonPage(model: model);
-            },
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              final tweenIn = Tween(
-                begin: const Offset(0, 1),
-                end: Offset.zero,
-              );
-
-              return SlideTransition(
-                position: tweenIn.animate(animation),
-                child: child,
-              );
-            },
-          ),
-        );
+        Navigator.pushNamed(context, '/pokemon/', arguments: model);
       },
       child: ConstrainedBox(
         constraints: const BoxConstraints(
@@ -70,7 +52,7 @@ class PokedexPokemonCard extends StatelessWidget {
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
                         child: Text(
-                          '${model.name[0].toUpperCase()}${model.name.substring(1)}',
+                          Formatter.captalize(text: model.name),
                           style: CustomTheme.pokedexLabels,
                         ),
                       ),

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:pokedex_app/app/core/exceptions/message_exception.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_generation_enum.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_genration_limits.dart';
@@ -20,7 +19,7 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
       : _pokemonRepository = pokemonRepository,
         super(PokedexStateInit()) {
     on<PokedexEventLoad>(_load);
-    on<PokedexEventChangeGen>(_changeGen, transformer: restartable());
+    on<PokedexEventChangeGen>(_changeGen);
   }
 
   Future<void> _load(PokedexEventLoad event, Emitter<PokedexState> emit) async {

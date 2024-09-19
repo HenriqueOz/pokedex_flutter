@@ -51,14 +51,45 @@ class CustomTheme {
     ),
   );
 
+  static ButtonStyle filledButton({required Color primaryColor}) => ButtonStyle(
+        textStyle: WidgetStatePropertyAll(CustomTheme.body.copyWith(fontWeight: FontWeight.bold)),
+        backgroundColor: WidgetStatePropertyAll(primaryColor),
+        foregroundColor: const WidgetStatePropertyAll(Colors.black),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            side: BorderSide(
+              color: primaryColor,
+              width: 1,
+            ),
+          ),
+        ),
+      );
+
+  static ButtonStyle outlinedButton({required Color primaryColor}) => ButtonStyle(
+        textStyle: WidgetStatePropertyAll(CustomTheme.body.copyWith(fontWeight: FontWeight.bold)),
+        backgroundColor: const WidgetStatePropertyAll(Colors.transparent),
+        foregroundColor: WidgetStatePropertyAll(primaryColor),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            side: BorderSide(
+              color: primaryColor,
+              width: 1,
+            ),
+          ),
+        ),
+      );
+
   static final themeData = ThemeData().copyWith(
-      textTheme: GoogleFonts.chivoTextTheme(),
-      scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      primaryColor: primaryColor,
-      splashColor: Colors.grey,
-      textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: primaryColor,
-        selectionColor: primaryColor,
-        selectionHandleColor: primaryColor,
-      ));
+    textTheme: GoogleFonts.chivoTextTheme(),
+    scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
+    primaryColor: primaryColor,
+    splashColor: Colors.grey,
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: primaryColor,
+      selectionColor: primaryColor,
+      selectionHandleColor: primaryColor,
+    ),
+  );
 }

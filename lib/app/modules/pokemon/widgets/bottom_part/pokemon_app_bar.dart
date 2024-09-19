@@ -26,7 +26,10 @@ class PokemonAppBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: () {
               //! Adicionar ou remover favorito
             },
-            icon: const Icon(Icons.favorite_border),
+            icon: const Icon(
+              Icons.favorite_border,
+              size: 30,
+            ),
           ),
         ),
       ],
