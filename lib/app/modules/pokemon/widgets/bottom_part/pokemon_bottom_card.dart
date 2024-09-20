@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
+import 'package:pokedex_app/app/models/pokemon_info_model.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
+import 'package:pokedex_app/app/modules/pokemon/bloc/pokemon_info_bloc.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/pokemon_info_tab_bar.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/pokemon_type_cards.dart';
 
@@ -16,7 +19,10 @@ class PokemonBottomCard extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
@@ -53,7 +59,70 @@ class PokemonBottomCard extends StatelessWidget {
                 endIndent: 20,
                 height: 40,
               ),
-              PokemonInfoTabBar(color: model.primaryColor!),
+              //* Erro
+              BlocSelector<PokemonInfoBloc, PokemonInfoState, String>(
+                selector: (state) {
+                  if (state is PokemonInfoError) {
+                    return state.message;
+                  }
+                  return '';
+                },
+                builder: (context, message) {
+                  return Visibility(
+                    visible: message.isNotEmpty,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 100),
+                      child: Column(
+                        children: [
+                          Text(
+                            message,
+                            style: CustomTheme.body,
+                          ),
+                          ElevatedButton(
+                            style: CustomTheme.primaryButton.copyWith(backgroundColor: WidgetStatePropertyAll(model.primaryColor!)),
+                            onPressed: () {
+                              context.read<PokemonInfoBloc>().add(PokemonInfoLoad(id: model.id));
+                            },
+                            child: const Text('Tentar de novo'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              //* Loading
+              BlocSelector<PokemonInfoBloc, PokemonInfoState, bool>(
+                selector: (state) {
+                  return (state is PokemonInfoLoading);
+                },
+                builder: (context, loading) {
+                  return Visibility(
+                    visible: loading,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 100),
+                      child: CircularProgressIndicator(
+                        color: model.primaryColor!,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              //* Sucessos
+              BlocSelector<PokemonInfoBloc, PokemonInfoState, PokemonInfoModel>(
+                selector: (state) {
+                  if (state is PokemonInfoFetch) {
+                    return state.data;
+                  }
+                  return PokemonInfoModel(stats: {}, description: {});
+                },
+                builder: (context, data) {
+                  return Visibility(
+                    visible: data.description.isNotEmpty,
+                    child: PokemonInfoTabBar(primaryColor: model.primaryColor!, secondaryColor: model.secondaryColor, data: data),
+                  );
+                },
+              ),
             ],
           ),
         ),

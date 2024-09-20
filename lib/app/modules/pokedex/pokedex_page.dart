@@ -21,7 +21,6 @@ class PokedexPage extends StatefulWidget {
 class _PokedexPageState extends State<PokedexPage> {
   late ScrollController scrollController;
   PokemonGenerationEnum selectedGeneration = PokemonGenerationEnum.gen1;
-  bool showScrollButton = false;
   bool canLoad = false;
   bool hasError = false;
 

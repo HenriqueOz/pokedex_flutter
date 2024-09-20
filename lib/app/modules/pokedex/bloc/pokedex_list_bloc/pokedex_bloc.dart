@@ -40,7 +40,7 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
 
     if (currentState is PokedexStateFetchPokemon) {
       try {
-        bool canLoad = true;
+        bool canLoad = false;
         int toLoad = 10; //* Número de pokemons que serão carregados por scroll
         final int listLength = currentState.pokemonModelList.length;
 
@@ -52,8 +52,8 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
           toLoad = genLimit - listLength;
         }
 
-        if (toLoad == 0) {
-          canLoad = false;
+        if (toLoad != 0) {
+          canLoad = true;
         }
 
         final oldList = currentState.pokemonModelList;

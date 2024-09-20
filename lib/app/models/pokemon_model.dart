@@ -65,16 +65,31 @@ class PokemonModel {
   factory PokemonModel.fromJson(String source) => PokemonModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   //* Modelo que retorna um MissingNo (Ufffff Referências)
-  factory PokemonModel.missingNo() => PokemonModel(
+  factory PokemonModel.missingNo() {
+    return PokemonModel(
       id: 0,
       name: 'MissingNo.',
       typePrimary: 'normal',
       typeSecondary: null,
       imageUrl: 'assets/images/missingno.png',
-      shinyImageUrl: 'assets/images/missingno.png');
+      shinyImageUrl: 'assets/images/missingno.png',
+    );
+  }
 
   @override
   String toString() {
-    return 'PokemonModel(id: $id, name: $name, typePrimary: $typePrimary, typeSecondary: $typeSecondary, imageUrl: $imageUrl, typePrimaryIconUrl: $typePrimaryIconUrl, typeSecondaryIconUrl: $typeSecondaryIconUrl)';
+    return '''
+    PokemonModel(
+      id: $id,
+      name: $name,
+      typePrimary: $typePrimary,
+      typeSecondary: $typeSecondary,
+      imageUrl: $imageUrl,
+      shinyImageUrl: $shinyImageUrl,
+      typePrimaryIconUrl: $typePrimaryIconUrl,
+      typeSecondaryIconUrl: $typeSecondaryIconUrl,
+      primaryColor: $primaryColor,
+      secondaryColor: $secondaryColor,
+    )''';
   }
 }

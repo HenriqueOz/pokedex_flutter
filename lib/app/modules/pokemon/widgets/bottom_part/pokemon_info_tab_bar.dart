@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
+import 'package:pokedex_app/app/models/pokemon_info_model.dart';
 import 'package:pokedex_app/app/modules/pokemon/cubit/pokemon_view_cubit.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_description.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_stats.dart';
 
 class PokemonInfoTabBar extends StatefulWidget {
-  final Color color;
+  final Color primaryColor;
+  final Color? secondaryColor;
+  final PokemonInfoModel data;
 
-  const PokemonInfoTabBar({super.key, required this.color});
+  const PokemonInfoTabBar({super.key, required this.primaryColor, required this.secondaryColor, required this.data});
 
   @override
   State<PokemonInfoTabBar> createState() => _PokemonInfoTabBar();
@@ -14,8 +19,8 @@ class PokemonInfoTabBar extends StatefulWidget {
 
 class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderStateMixin {
   final List<Tab> tabs = [
-    const Tab(child: Text('Stats')),
     const Tab(child: Text('Description')),
+    const Tab(child: Text('Stats')),
     const Tab(child: Text('Cries')),
     const Tab(child: Text('Abilities')),
     const Tab(child: Text('Weaknesses')),
@@ -48,11 +53,12 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
           controller: _tabController,
           tabs: tabs,
           unselectedLabelColor: Colors.grey,
-          labelColor: widget.color,
+          labelColor: widget.primaryColor,
           dividerColor: Colors.transparent,
-          indicatorColor: widget.color,
+          indicatorColor: widget.primaryColor,
           isScrollable: true,
           labelStyle: CustomTheme.body,
+          indicatorSize: TabBarIndicatorSize.tab,
         ),
         BlocSelector<PokemonViewCubit, PokemonViewState, int>(
           selector: (state) {
@@ -62,11 +68,21 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
             return 0;
           },
           builder: (context, index) {
+            final data = widget.data;
+
             return IndexedStack(
               index: index,
               children: [
-                Container(child: const Text('aaaaaaaaaaaaaaaaa')),
-                Container(child: const Text('bbbbbbbbbbbbbbbbb')),
+                TabDescription(
+                  description: data.description,
+                  primaryColor: widget.primaryColor,
+                  secondaryColor: widget.secondaryColor ?? widget.primaryColor,
+                ),
+                TabStats(
+                  stats: data.stats,
+                  primaryColor: widget.primaryColor,
+                  secondaryColor: widget.secondaryColor ?? widget.primaryColor,
+                ),
                 Container(child: const Text('ccccccccccccccccc')),
                 Container(child: const Text('ddddddddddddddddd')),
                 Container(child: const Text('fffffffffffffffff')),
