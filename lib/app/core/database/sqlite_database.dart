@@ -21,6 +21,8 @@ class SqliteDatabase {
     final String dbPath = await getDatabasesPath();
     final String path = join(dbPath, _databaseName);
 
+    await deleteDatabase(path);
+
     //* Quando o _database for null uma conexão é aberta
     _database ??= await openDatabase(
       path,
@@ -46,15 +48,19 @@ class SqliteDatabase {
   Future<void> _onCreate(Database db, int version) async {
     final batch = db.batch();
 
-    batch.rawQuery(
-    '''
+    batch.execute('''
       CREATE TABLE user (
-        user_id INT PRIMARY KEY NOT NULL,
-        username VARCHAR(20),
-        avatar BLOB,
+        user_id INTEGER PRIMARY KEY NOT NULL,
+        username TEXT,
+        avatar BLOB
       );
-    '''
-    );
+    ''');
+
+    batch.execute('''CREATE TABLE pokemon_name (
+        pokemon_id INTEGER PRIMARY KEY NOT NULL,
+        name TEXT
+      );
+    ''');
 
     batch.commit();
   }

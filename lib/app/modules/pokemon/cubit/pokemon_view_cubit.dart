@@ -8,8 +8,13 @@ class PokemonViewCubit extends Cubit<PokemonViewState> {
 
   PokemonViewCubit() : super(PokemonViewData(shiny: false, tab: 0));
 
-  void changeView() {
-    _isShiny = !_isShiny;
+  void showShiny() {
+    _isShiny = true;
+    emit(PokemonViewData(shiny: _isShiny, tab: _currentTab));
+  }
+
+  void showNorma() {
+    _isShiny = false;
     emit(PokemonViewData(shiny: _isShiny, tab: _currentTab));
   }
 

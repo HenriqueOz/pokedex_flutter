@@ -23,7 +23,7 @@ class PokemonAlternateViewButton extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  context.read<PokemonViewCubit>().changeView();
+                  context.read<PokemonViewCubit>().showNorma();
                 },
                 style: shiny ? CustomTheme.outlinedButton(primaryColor: Colors.white) : CustomTheme.filledButton(primaryColor: Colors.white),
                 child: const Text('Normal'),
@@ -31,7 +31,7 @@ class PokemonAlternateViewButton extends StatelessWidget {
               const SizedBox(width: 30),
               TextButton(
                 onPressed: () {
-                  context.read<PokemonViewCubit>().changeView();
+                  context.read<PokemonViewCubit>().showShiny();
                 },
                 style: shiny
                     ? CustomTheme.filledButton(primaryColor: Colors.yellow.shade100)

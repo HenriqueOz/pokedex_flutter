@@ -8,6 +8,7 @@ class PokemonAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
+      scrolledUnderElevation: 0.0,
       iconTheme: const IconThemeData(
         color: Colors.white,
       ),

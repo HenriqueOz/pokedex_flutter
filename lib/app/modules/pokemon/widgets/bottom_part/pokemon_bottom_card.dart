@@ -33,8 +33,12 @@ class PokemonBottomCard extends StatelessWidget {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-          child: Column(
+          padding: const EdgeInsets.only(
+            right: 20,
+            left: 20,
+            top: 20,
+          ),
+          child: ListView(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,22 +103,25 @@ class PokemonBottomCard extends StatelessWidget {
                 builder: (context, loading) {
                   return Visibility(
                     visible: loading,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 100),
-                      child: CircularProgressIndicator(
-                        color: model.primaryColor!,
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: model.primaryColor!,
+                        ),
                       ),
                     ),
                   );
                 },
               ),
-              //* Sucessos
+              //* Sucesso
               BlocSelector<PokemonInfoBloc, PokemonInfoState, PokemonInfoModel>(
                 selector: (state) {
                   if (state is PokemonInfoFetch) {
                     return state.data;
                   }
-                  return PokemonInfoModel(stats: {}, description: {});
+                  return PokemonInfoModel(stats: {}, description: {}, cries: {});
                 },
                 builder: (context, data) {
                   return Visibility(

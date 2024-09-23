@@ -14,14 +14,14 @@ class PokedexHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Pokedéx',
+              'Pokédex',
               style: CustomTheme.title,
             ),
             SizedBox(
               height: 10,
             ),
             Text(
-              'Explore a lista de Pokémons e descubra suas principais características.',
+              'Explore the pokémons list and discover their characteristics.',
               style: CustomTheme.body,
             ),
           ],

@@ -21,8 +21,7 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
   final List<Tab> tabs = [
     const Tab(child: Text('Description')),
     const Tab(child: Text('Stats')),
-    const Tab(child: Text('Cries')),
-    const Tab(child: Text('Abilities')),
+    const Tab(child: Text('Forms')),
     const Tab(child: Text('Weaknesses')),
   ];
   late TabController _tabController;
@@ -75,6 +74,7 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
               children: [
                 TabDescription(
                   description: data.description,
+                  cries: data.cries,
                   primaryColor: widget.primaryColor,
                   secondaryColor: widget.secondaryColor ?? widget.primaryColor,
                 ),

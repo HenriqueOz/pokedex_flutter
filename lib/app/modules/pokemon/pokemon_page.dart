@@ -31,7 +31,6 @@ class PokemonPage extends StatelessWidget {
         body: LayoutBuilder(
           builder: (context, constraints) {
             return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //* Parte superior
                 SizedBox(

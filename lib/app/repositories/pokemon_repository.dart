@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:pokedex_app/app/core/exceptions/message_exception.dart';
+import 'package:pokedex_app/app/core/pokemon_data/pokemon_count.dart';
 import 'package:pokedex_app/app/models/pokemon_info_model.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
+import 'package:pokedex_app/app/models/pokemon_name_list_model.dart';
 
 class PokemonRepository {
   Future<PokemonModel> getPokemonById({required int id}) async {
@@ -38,7 +40,24 @@ class PokemonRepository {
       }
       return PokemonInfoModel.fromMap(map);
     } on Exception catch (e, s) {
-      const String message = 'Repository: Erro ao carregar informações';
+      const String message = 'Erro ao carregar informações';
+      log(message, error: e, stackTrace: s);
+      throw MessageException(message: message);
+    }
+  }
+
+  Future<PokemonNameListModel> getPokemonNameListModel() async {
+    try {
+      final dio = Dio();
+      final response = await dio.get('https://pokeapi.co/api/v2/pokemon?limit=${PokemonCount.count}&offset=0');
+
+      if (response.statusCode == 200) {
+        return PokemonNameListModel.fromMap(response.data);
+      } else {
+        throw Exception();
+      }
+    } on Exception catch (e, s) {
+      const String message = 'Erro ao carregar informações';
       log(message, error: e, stackTrace: s);
       throw MessageException(message: message);
     }
