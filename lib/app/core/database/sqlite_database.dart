@@ -21,7 +21,7 @@ class SqliteDatabase {
     final String dbPath = await getDatabasesPath();
     final String path = join(dbPath, _databaseName);
 
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     //* Quando o _database for null uma conexão é aberta
     _database ??= await openDatabase(

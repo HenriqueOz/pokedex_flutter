@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_generation_enum.dart';
@@ -9,7 +11,7 @@ import 'package:pokedex_app/app/modules/pokedex/widgets/header/pokedex_appbar.da
 import 'package:pokedex_app/app/modules/pokedex/widgets/list/pokedex_gen_filter.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/header/pokedex_header.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/list/pokedex_pokemon_card.dart';
-import 'package:pokedex_app/app/modules/pokedex/widgets/header/pokedex_search_bar.dart';
+import 'package:pokedex_app/app/modules/pokedex/widgets/header/search/pokedex_search_bar.dart';
 
 class PokedexPage extends StatefulWidget {
   const PokedexPage({super.key});
@@ -93,146 +95,150 @@ class _PokedexPageState extends State<PokedexPage> {
       body: SingleChildScrollView(
         controller: scrollController,
         physics: const ScrollPhysics(), //* Precisa disso aqui pra definir como scroll padrão
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            const SizedBox(
-              height: 30,
-            ),
-            const PokedexHeader(),
-            const PokedexSearchBar(),
-            const Divider(
-              height: 40,
-              endIndent: 80,
-              indent: 80,
-              thickness: .5,
-            ),
-            //
-            //* Listener que atualiza o filtro selecionado
-            //
-            BlocSelector<PokedexBloc, PokedexState, PokemonGenerationEnum>(
-              selector: (state) {
-                if (state is PokedexStateFetchPokemon) {
-                  selectedGeneration = state.generation;
-                } else if (state is PokedexStateLoading) {
-                  selectedGeneration = state.generation;
-                }
-                return selectedGeneration;
-              },
-              builder: (context, generation) {
-                return PokedexGenFilter(selectedGeneration: generation);
-              },
-            ),
-            //
-            //* Builder da grid da pokedéx que é triggerado quando ocorre
-            //* uma alteração na lista de pokemons
-            //
-            BlocSelector<PokedexBloc, PokedexState, List<PokemonModel>>(
-              selector: (state) {
-                if (state is PokedexStateLoading) {
-                  return state.pokemonModelListHolder;
-                } else if (state is PokedexStateFetchPokemon) {
-                  return state.pokemonModelList;
-                } else if (state is PokedexStateError) {
-                  return state.pokemonModelListHolder;
-                }
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 30,
+                ),
+                const PokedexHeader(),
+                const PokedexSearchBar(),
+                const Divider(
+                  height: 40,
+                  endIndent: 80,
+                  indent: 80,
+                  thickness: .5,
+                ),
+                //
+                //* Listener que atualiza o filtro selecionado
+                //
+                BlocSelector<PokedexBloc, PokedexState, PokemonGenerationEnum>(
+                  selector: (state) {
+                    if (state is PokedexStateFetchPokemon) {
+                      selectedGeneration = state.generation;
+                    } else if (state is PokedexStateLoading) {
+                      selectedGeneration = state.generation;
+                    }
+                    return selectedGeneration;
+                  },
+                  builder: (context, generation) {
+                    return PokedexGenFilter(selectedGeneration: generation);
+                  },
+                ),
+                //
+                //* Builder da grid da pokedéx que é triggerado quando ocorre
+                //* uma alteração na lista de pokemons
+                //
+                BlocSelector<PokedexBloc, PokedexState, List<PokemonModel>>(
+                  selector: (state) {
+                    if (state is PokedexStateLoading) {
+                      return state.pokemonModelListHolder;
+                    } else if (state is PokedexStateFetchPokemon) {
+                      return state.pokemonModelList;
+                    } else if (state is PokedexStateError) {
+                      return state.pokemonModelListHolder;
+                    }
 
-                return <PokemonModel>[];
-              },
-              builder: (context, pokemonModelList) {
-                final orientation = MediaQuery.of(context).orientation;
-                final gridCrossAxisCount = orientation == Orientation.portrait ? 2 : 3;
+                    return <PokemonModel>[];
+                  },
+                  builder: (context, pokemonModelList) {
+                    final orientation = MediaQuery.of(context).orientation;
+                    final gridCrossAxisCount = orientation == Orientation.portrait ? 2 : 3;
 
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    top: 20,
-                    bottom: 20,
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: gridCrossAxisCount,
-                      crossAxisSpacing: 14,
-                      mainAxisSpacing: 16,
-                    ),
-                    physics: const NeverScrollableScrollPhysics(), //* Desligando o scroll da ListView
-                    shrinkWrap: true, //* ListView com o tamanho necessário
-                    itemCount: pokemonModelList.length,
-                    itemBuilder: (context, index) {
-                      // debugPrint('${context.read<PokedexBloc>().state.runtimeType}');
-                      return PokedexPokemonCard(model: pokemonModelList[index]);
-                    },
-                  ),
-                );
-              },
-            ),
-            //
-            //* Loader que reage a partir do status de loading armazenado nos states da página
-            //
-            BlocSelector<PokedexBloc, PokedexState, bool>(
-              selector: (state) {
-                if (state is PokedexStateLoading) {
-                  canLoad = state.canLoad;
-                } else if (state is PokedexStateFetchPokemon) {
-                  canLoad = state.canLoad;
-                } else if (state is PokedexStateError) {
-                  canLoad = false;
-                }
-                return canLoad;
-              },
-              builder: (context, canLoad) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: Visibility(
-                    visible: canLoad,
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 30.0),
-                      child: CircularProgressIndicator(
-                        color: Colors.black,
+                    return Padding(
+                      padding: const EdgeInsets.only(
+                        top: 20,
+                        bottom: 20,
+                        left: 20,
+                        right: 20,
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
-            //
-            //* Botão para refresh quando ocorre algum erro no fetch
-            //
-            BlocSelector<PokedexBloc, PokedexState, String>(
-              selector: (state) {
-                if (state is PokedexStateError) {
-                  hasError = true;
-                  return state.error;
-                }
-                hasError = false;
-                return "";
-              },
-              builder: (context, message) {
-                return Align(
-                  alignment: Alignment.center,
-                  child: Visibility(
-                    visible: message.isNotEmpty,
-                    child: Column(
-                      children: [
-                        Text(
-                          message,
-                          style: CustomTheme.body,
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: gridCrossAxisCount,
+                          crossAxisSpacing: 14,
+                          mainAxisSpacing: 16,
                         ),
-                        ElevatedButton(
-                          style: CustomTheme.primaryButton,
-                          onPressed: () {
-                            context.read<PokedexBloc>().add(PokedexEventLoad());
-                          },
-                          child: const Text('Tentar de novo'),
+                        physics: const NeverScrollableScrollPhysics(), //* Desligando o scroll da ListView
+                        shrinkWrap: true, //* ListView com o tamanho necessário
+                        itemCount: pokemonModelList.length,
+                        itemBuilder: (context, index) {
+                          // debugPrint('${context.read<PokedexBloc>().state.runtimeType}');
+                          return PokedexPokemonCard(model: pokemonModelList[index]);
+                        },
+                      ),
+                    );
+                  },
+                ),
+                //
+                //* Loader que reage a partir do status de loading armazenado nos states da página
+                //
+                BlocSelector<PokedexBloc, PokedexState, bool>(
+                  selector: (state) {
+                    if (state is PokedexStateLoading) {
+                      canLoad = state.canLoad;
+                    } else if (state is PokedexStateFetchPokemon) {
+                      canLoad = state.canLoad;
+                    } else if (state is PokedexStateError) {
+                      canLoad = false;
+                    }
+                    return canLoad;
+                  },
+                  builder: (context, canLoad) {
+                    return Align(
+                      alignment: Alignment.center,
+                      child: Visibility(
+                        visible: canLoad,
+                        child: const Padding(
+                          padding: EdgeInsets.only(top: 30.0),
+                          child: CircularProgressIndicator(
+                            color: Colors.black,
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+                      ),
+                    );
+                  },
+                ),
+                //
+                //* Botão para refresh quando ocorre algum erro no fetch
+                //
+                BlocSelector<PokedexBloc, PokedexState, String>(
+                  selector: (state) {
+                    if (state is PokedexStateError) {
+                      hasError = true;
+                      return state.error;
+                    }
+                    hasError = false;
+                    return "";
+                  },
+                  builder: (context, message) {
+                    return Align(
+                      alignment: Alignment.center,
+                      child: Visibility(
+                        visible: message.isNotEmpty,
+                        child: Column(
+                          children: [
+                            Text(
+                              message,
+                              style: CustomTheme.body,
+                            ),
+                            ElevatedButton(
+                              style: CustomTheme.primaryButton,
+                              onPressed: () {
+                                context.read<PokedexBloc>().add(PokedexEventLoad());
+                              },
+                              child: const Text('Tentar de novo'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 60),
+              ],
             ),
-            const SizedBox(height: 60),
           ],
         ),
       ),

@@ -8,15 +8,16 @@ import 'package:pokedex_app/app/repositories/pokemon_repository.dart';
 import 'package:provider/provider.dart';
 
 class PokemonModule {
-  static pageBuilder({required PokemonModel model}) {
-    return MultiBlocProvider(
-      providers: [
-        Provider(create: (BuildContext context) => PokemonRepository()),
-        BlocProvider(create: (BuildContext context) => PokemonViewCubit()),
-        BlocProvider(
-            create: (BuildContext context) => PokemonInfoBloc(pokemonRepository: RepositoryProvider.of(context))..add(PokemonInfoLoad(id: model.id)))
-      ],
-      child: PokemonPage(model: model),
+  static pageBuilder({required PokemonModel model, required BuildContext context}) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => MultiBlocProvider(
+        providers: [
+          Provider(create: (context) => PokemonRepository()),
+          BlocProvider(create: (context) => PokemonViewCubit()),
+          BlocProvider(create: (context) => PokemonInfoBloc(pokemonRepository: RepositoryProvider.of(context))..add(PokemonInfoLoad(id: model.id)))
+        ],
+        child: PokemonPage(model: model),
+      ),
     );
   }
 }

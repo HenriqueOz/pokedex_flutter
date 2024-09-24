@@ -32,7 +32,7 @@ void main() {
       test(
         'get a response from the api and return a pokemon name list model',
         () async {
-          final model = await PokemonRepository().getPokemonNameListModel();
+          final model = await PokemonRepository().getPokemonNameListModel(0, 100);
 
           debugPrint(model.toString());
 

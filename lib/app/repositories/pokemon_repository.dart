@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:pokedex_app/app/core/exceptions/message_exception.dart';
-import 'package:pokedex_app/app/core/pokemon_data/pokemon_count.dart';
 import 'package:pokedex_app/app/models/pokemon_info_model.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/models/pokemon_name_list_model.dart';
@@ -46,10 +44,10 @@ class PokemonRepository {
     }
   }
 
-  Future<PokemonNameListModel> getPokemonNameListModel() async {
+  Future<PokemonNameListModel> getPokemonNameListModel(int begin, int end) async {
     try {
       final dio = Dio();
-      final response = await dio.get('https://pokeapi.co/api/v2/pokemon?limit=${PokemonCount.count}&offset=0');
+      final response = await dio.get('https://pokeapi.co/api/v2/pokemon?limit=$end&offset=$begin');
 
       if (response.statusCode == 200) {
         return PokemonNameListModel.fromMap(response.data);

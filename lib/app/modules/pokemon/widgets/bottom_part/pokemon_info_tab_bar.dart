@@ -72,16 +72,22 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
             return IndexedStack(
               index: index,
               children: [
-                TabDescription(
-                  description: data.description,
-                  cries: data.cries,
-                  primaryColor: widget.primaryColor,
-                  secondaryColor: widget.secondaryColor ?? widget.primaryColor,
+                Visibility(
+                  visible: index == 0,
+                  child: TabDescription(
+                    description: data.description,
+                    cries: data.cries,
+                    primaryColor: widget.primaryColor,
+                    secondaryColor: widget.secondaryColor ?? widget.primaryColor,
+                  ),
                 ),
-                TabStats(
-                  stats: data.stats,
-                  primaryColor: widget.primaryColor,
-                  secondaryColor: widget.secondaryColor ?? widget.primaryColor,
+                Visibility(
+                  visible: index == 1,
+                  child: TabStats(
+                    stats: data.stats,
+                    primaryColor: widget.primaryColor,
+                    secondaryColor: widget.secondaryColor ?? widget.primaryColor,
+                  ),
                 ),
                 Container(child: const Text('ccccccccccccccccc')),
                 Container(child: const Text('ddddddddddddddddd')),
