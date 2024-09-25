@@ -13,22 +13,23 @@ class PokedexSearchInput extends StatefulWidget {
 
 class _PokedexSearchInputState extends State<PokedexSearchInput> {
   String currentText = '';
-
   final _searchEC = TextEditingController();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        _searchEC.addListener(() {
-          if (_searchEC.text != currentText) {
-            currentText = _searchEC.text;
-            context.read<PokedexSearchBloc>().add(PokedexSearchFindName(name: currentText));
-          }
-        });
+        _searchEC.addListener(_searchListener);
       },
     );
     super.initState();
+  }
+
+  void _searchListener() {
+    if (_searchEC.text != currentText) {
+      currentText = _searchEC.text;
+      context.read<PokedexSearchBloc>().add(PokedexSearchFindName(name: currentText));
+    }
   }
 
   @override
@@ -39,52 +40,83 @@ class _PokedexSearchInputState extends State<PokedexSearchInput> {
 
   @override
   Widget build(BuildContext context) {
-    final list = [
-      'a',
-      'b',
-      'c',
-      'd',
-    ];
+    _searchEC.clear();
 
-    return TypeAheadField<String>(
-      builder: (context, controller, focusNode) {
-        return TextField(
-          onTapOutside: (event) {
-            FocusScope.of(context).requestFocus(FocusNode());
+    return BlocSelector<PokedexSearchBloc, PokedexSearchState, List<String>>(
+      selector: (state) {
+        if (state is PokedexSearchFetch) {
+          return state.list;
+        }
+        return [];
+      },
+      builder: (context, list) {
+        return TypeAheadField<String>(
+          controller: _searchEC,
+          decorationBuilder: (context, child) {
+            return Material(
+              type: MaterialType.card,
+              elevation: 10,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              color: Colors.white,
+              child: child,
+            );
           },
-          controller: controller,
-          focusNode: focusNode,
-          decoration: InputDecoration(
-            hintText: 'Pokemon Name',
-            hintStyle: CustomTheme.hint,
-            border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
-            contentPadding: const EdgeInsets.all(12),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(
-                color: CustomTheme.primaryColor,
-              ),
-            ),
-            suffixIcon: IconButton(
-              onPressed: () {
-                controller.clear();
-              },
-              icon: const Icon(
-                Icons.clear,
-                size: 20,
-              ),
+          errorBuilder: (context, error) => const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'An error have occurred',
+              style: CustomTheme.body,
             ),
           ),
+          emptyBuilder: (context) => const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Nothing found',
+              style: CustomTheme.body,
+            ),
+          ),
+          builder: (context, controller, focusNode) {
+            return TextField(
+              onTapOutside: (event) {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              controller: controller,
+              focusNode: focusNode,
+              decoration: InputDecoration(
+                hintText: 'Pokemon Name',
+                hintStyle: CustomTheme.hint,
+                border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                contentPadding: const EdgeInsets.all(12),
+                focusedBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderSide: BorderSide(
+                    color: CustomTheme.primaryColor,
+                  ),
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    controller.clear();
+                  },
+                  icon: const Icon(
+                    Icons.clear,
+                    size: 20,
+                  ),
+                ),
+              ),
+            );
+          },
+          itemBuilder: (context, name) {
+            return ListTile(
+              title: Text(name),
+            );
+          },
+          onSelected: (name) {
+            _searchEC.text = name;
+          },
+          suggestionsCallback: (search) {
+            return list;
+          },
         );
-      },
-      itemBuilder: (context, name) {
-        return ListTile(
-          title: Text(name),
-        );
-      },
-      onSelected: (name) {},
-      suggestionsCallback: (search) {
-        return list;
       },
     );
   }

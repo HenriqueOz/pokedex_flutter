@@ -18,7 +18,23 @@ class PokemonRepository {
       }
     } on Exception catch (e, s) {
       log('Repository: Erro ao carregar feed', error: e, stackTrace: s);
-      throw MessageException(message: 'Erro ao carregar feed');
+      throw MessageException(message: 'Error while loading feed');
+    }
+  }
+
+  Future<PokemonModel> getPokemonByName({required String name}) async {
+    try {
+      final dio = Dio();
+      final response = await dio.get('https://pokeapi.co/api/v2/pokemon/$name');
+
+      if (response.statusCode == 200) {
+        return PokemonModel.fromMap(response.data);
+      } else {
+        throw Exception();
+      }
+    } on Exception catch (e, s) {
+      log('Repository: Erro ao carregar feed', error: e, stackTrace: s);
+      throw MessageException(message: 'Error while loading item');
     }
   }
 
@@ -38,7 +54,7 @@ class PokemonRepository {
       }
       return PokemonInfoModel.fromMap(map);
     } on Exception catch (e, s) {
-      const String message = 'Erro ao carregar informações';
+      const String message = 'Error while loading data';
       log(message, error: e, stackTrace: s);
       throw MessageException(message: message);
     }
@@ -55,7 +71,7 @@ class PokemonRepository {
         throw Exception();
       }
     } on Exception catch (e, s) {
-      const String message = 'Erro ao carregar informações';
+      const String message = 'Error while loading data';
       log(message, error: e, stackTrace: s);
       throw MessageException(message: message);
     }

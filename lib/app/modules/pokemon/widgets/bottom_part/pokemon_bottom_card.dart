@@ -87,7 +87,7 @@ class PokemonBottomCard extends StatelessWidget {
                             onPressed: () {
                               context.read<PokemonInfoBloc>().add(PokemonInfoLoad(id: model.id));
                             },
-                            child: const Text('Tentar de novo'),
+                            child: const Text('Try again'),
                           ),
                         ],
                       ),

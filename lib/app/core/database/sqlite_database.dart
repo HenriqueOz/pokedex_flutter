@@ -21,6 +21,7 @@ class SqliteDatabase {
     final String dbPath = await getDatabasesPath();
     final String path = join(dbPath, _databaseName);
 
+    //* Perigo
     // await deleteDatabase(path);
 
     //* Quando o _database for null uma conexão é aberta
@@ -56,7 +57,8 @@ class SqliteDatabase {
       );
     ''');
 
-    batch.execute('''CREATE TABLE pokemon_name (
+    batch.execute('''
+      CREATE TABLE pokemon_name (
         pokemon_id INTEGER PRIMARY KEY NOT NULL,
         name TEXT
       );

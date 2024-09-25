@@ -228,7 +228,7 @@ class _PokedexPageState extends State<PokedexPage> {
                               onPressed: () {
                                 context.read<PokedexBloc>().add(PokedexEventLoad());
                               },
-                              child: const Text('Tentar de novo'),
+                              child: const Text('Try again'),
                             ),
                           ],
                         ),

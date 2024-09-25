@@ -28,6 +28,7 @@ class PokemonInfoModel {
       'weight': map['weight'] as int?,
       'base_happiness': map['base_happiness'] as int?,
       'capture_rate': map['capture_rate'] as int?,
+      'evolution_chain': map['evolution_chain']['url'] as String,
       'pokedex_entry': () {
         // * filtrando os resultados de entries por somente os que tiverem em ingles
         final List<dynamic> nameList = map['flavor_text_entries'].where((e) => e['language']['name'] == 'en').toList();

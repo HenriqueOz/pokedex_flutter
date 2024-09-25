@@ -21,6 +21,7 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
   final List<Tab> tabs = [
     const Tab(child: Text('Description')),
     const Tab(child: Text('Stats')),
+    const Tab(child: Text('Evolution')),
     const Tab(child: Text('Forms')),
     const Tab(child: Text('Weaknesses')),
   ];

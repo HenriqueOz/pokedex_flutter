@@ -25,7 +25,7 @@ class PokemonInfoBloc extends Bloc<PokemonInfoEvent, PokemonInfoState> {
       emit(PokemonInfoFetch(data: pokemonInfo));
     } on MessageException catch (e, s) {
       log(e.message, error: e, stackTrace: s);
-      emit(PokemonInfoError(message: 'Erro ao carregar informações'));
+      emit(PokemonInfoError(message: e.message));
     }
   }
 }

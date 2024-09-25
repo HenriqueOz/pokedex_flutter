@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
+import 'package:pokedex_app/app/core/ui/messenger.dart';
 
 class TabDescription extends StatelessWidget {
   final Map<String, dynamic> description;
@@ -47,16 +48,7 @@ class TabDescription extends StatelessWidget {
               IconButton(
                 onPressed: () async {
                   await Clipboard.setData(ClipboardData(text: entry));
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
-                        'Copied Successfully',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: primaryColor,
-                    ),
-                  );
+                  Messenger.of(context).showMessage('Copied Successfully', Colors.white, primaryColor);
                 },
                 icon: Icon(
                   Icons.copy,
@@ -154,7 +146,11 @@ class TabDescription extends StatelessWidget {
       },
       icon: Row(
         children: [
-          Icon(Icons.play_arrow, color: primaryColor),
+          Icon(
+            Icons.volume_up,
+            color: primaryColor,
+            size: 20,
+          ),
           const SizedBox(width: 10),
           Text(
             label,
