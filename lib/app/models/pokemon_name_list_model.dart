@@ -2,6 +2,8 @@
 import 'dart:convert';
 
 class PokemonNameListModel {
+  //* armazena uma lista de nomes de pokemons que será salva no sqlite
+
   final List<String> nameList;
   PokemonNameListModel({
     required this.nameList,
@@ -13,12 +15,6 @@ class PokemonNameListModel {
     return PokemonNameListModel(
       nameList: nameList ?? this.nameList,
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'nameList': nameList,
-    };
   }
 
   factory PokemonNameListModel.fromMap(Map<String, dynamic> map) {

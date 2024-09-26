@@ -23,8 +23,8 @@ class PokemonModel {
     this.typeSecondary,
     required this.imageUrl,
     required this.shinyImageUrl,
-  })  : typePrimaryIconUrl = 'assets/images/types/${typePrimary}_type_icon.png',
-        primaryColor = PokemonTypeColor.colors[typePrimary];
+  })  : typePrimaryIconUrl = 'assets/images/types/${typePrimary}_type_icon.png', //* definindo a url do icon primário
+        primaryColor = PokemonTypeColor.colors[typePrimary]; //* defindo a cor primária com base no tipo primário entregue no constructor
 
   PokemonModel copyWith({
     int? id,
@@ -53,6 +53,7 @@ class PokemonModel {
       shinyImageUrl: map['sprites']['other']['official-artwork']['front_shiny'] as String,
     );
 
+    //* se o pokemon tiver mais de um tipo, eu atribuo os valores do tipo secundário as varáveis da instância
     if (map['types'].length > 1) {
       model.typeSecondary = map['types'][1]['type']['name'] as String;
       model.typeSecondaryIconUrl = 'assets/images/types/${model.typeSecondary}_type_icon.png';
@@ -63,19 +64,6 @@ class PokemonModel {
   }
 
   factory PokemonModel.fromJson(String source) => PokemonModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  //* Modelo que retorna um MissingNo (Ufffff Referências)
-  factory PokemonModel.missingNo() {
-    return PokemonModel(
-      id: 0,
-      name: 'MissingNo.',
-      typePrimary: 'normal',
-      typeSecondary: null,
-      imageUrl: 'assets/images/missingno.png',
-      shinyImageUrl: 'assets/images/missingno.png',
-    );
-  }
-
   @override
   String toString() {
     return '''

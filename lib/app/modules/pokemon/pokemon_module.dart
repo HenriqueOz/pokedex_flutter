@@ -9,8 +9,9 @@ import 'package:pokedex_app/app/repositories/pokemon_repository.dart';
 import 'package:provider/provider.dart';
 
 class PokemonModule {
-  static pageBuilder({required PokemonModel model, required BuildContext context}) {
+  static pageBuilder({required PokemonModel model, required BuildContext context, required RouteSettings? settings}) {
     return PageTransition(
+      settings: settings,
       type: PageTransitionType.rightToLeft,
       duration: const Duration(milliseconds: 300),
       child: MultiBlocProvider(

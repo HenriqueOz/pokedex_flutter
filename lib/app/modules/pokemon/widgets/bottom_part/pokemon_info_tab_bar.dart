@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/models/pokemon_info_model.dart';
+import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/modules/pokemon/cubit/pokemon_view_cubit.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_description.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_evolution.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_forms.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_stats.dart';
 
 class PokemonInfoTabBar extends StatefulWidget {
   final Color primaryColor;
   final Color? secondaryColor;
   final PokemonInfoModel data;
+  final PokemonModel mainModel;
 
-  const PokemonInfoTabBar({super.key, required this.primaryColor, required this.secondaryColor, required this.data});
+  const PokemonInfoTabBar({super.key, required this.mainModel, required this.primaryColor, required this.secondaryColor, required this.data});
 
   @override
   State<PokemonInfoTabBar> createState() => _PokemonInfoTabBar();
@@ -90,8 +94,22 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
                     secondaryColor: widget.secondaryColor ?? widget.primaryColor,
                   ),
                 ),
-                Container(child: const Text('ccccccccccccccccc')),
-                Container(child: const Text('ddddddddddddddddd')),
+                Visibility(
+                  visible: index == 2,
+                  child: TabEvolution(
+                    mainModel: widget.mainModel,
+                    primaryColor: widget.primaryColor,
+                    list: data.evolutionChain,
+                  ),
+                ),
+                Visibility(
+                  visible: index == 3,
+                  child: TabForms(
+                    mainModel: widget.mainModel,
+                    list: data.forms,
+                    primaryColor: widget.primaryColor,
+                  ),
+                ),
                 Container(child: const Text('fffffffffffffffff')),
               ],
             );

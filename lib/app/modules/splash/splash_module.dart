@@ -5,8 +5,9 @@ import 'package:pokedex_app/app/repositories/pokemon_repository.dart';
 import 'package:provider/provider.dart';
 
 class SplashModule {
-  static pageBuilder() {
+  static pageBuilder({required RouteSettings? settings}) {
     return PageRouteBuilder(
+      settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => MultiBlocProvider(
         providers: [
           Provider(

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+//* mapa de cores por tipo do pokemon
 class PokemonTypeColor {
   static final Map<String, Color> colors = {
     'normal': const Color(0xFFA8A77A),
@@ -11,7 +12,7 @@ class PokemonTypeColor {
     'bug': const Color(0xFFA6B91A),
     'dark': const Color(0xFF705746),
     'dragon': const Color(0xFF6F35FC),
-    'electric': const Color(0xFFF7D02C),
+    'electric': const Color.fromARGB(255, 233, 198, 60),
     'fairy': const Color(0xFFD685AD),
     'fighting': const Color(0xFFC22E28),
     'fire': const Color.fromARGB(255, 223, 142, 80),

@@ -1,15 +1,27 @@
+import 'package:pokedex_app/app/models/pokemon_model.dart';
+
 class PokemonInfoModel {
   final Map<String, int> stats;
   final Map<String, dynamic> description;
   final Map<String, String?> cries;
+  final List<PokemonModel> forms;
+  final List<PokemonModel> evolutionChain;
 
-  PokemonInfoModel({required this.stats, required this.description, required this.cries});
+  PokemonInfoModel({required this.stats, required this.description, required this.cries, required this.evolutionChain, required this.forms});
+  factory PokemonInfoModel.empty() {
+    return PokemonInfoModel(
+      stats: {},
+      description: {},
+      cries: {},
+      evolutionChain: [],
+      forms: [],
+    );
+  }
 
   factory PokemonInfoModel.fromMap(Map<String, dynamic> map) {
     //* Pegandos os stats no map
     final List<int> statsValues = map['stats'].map((value) => value['base_stat']).toList().cast<int>();
     final List<String> statsNames = map['stats'].map((value) => value['stat']['name']).toList().cast<String>();
-
     final Map<String, int> stats = {};
 
     for (int i = 0; i < statsValues.length; i++) {
@@ -22,8 +34,15 @@ class PokemonInfoModel {
       'legacy': map['cries']['legacy'] as String?,
     };
 
+    //* pegando a evolution chain
+    final List<PokemonModel> evolutionChain = map['chain_list'];
+
+    //* pegando as formas
+    final List<PokemonModel> forms = map['forms_list'];
+
     //* Pegando a description do map
     final Map<String, dynamic> description = {
+      'generation': map['generation']['name'] as String,
       'height': map['height'] as int?,
       'weight': map['weight'] as int?,
       'base_happiness': map['base_happiness'] as int?,
@@ -44,27 +63,20 @@ class PokemonInfoModel {
       stats: stats,
       description: description,
       cries: cries,
+      evolutionChain: evolutionChain,
+      forms: forms,
     );
   }
 
   @override
   String toString() {
-    String statsString = '';
-    String descString = '';
-    String criesString = '';
-
-    for (var item in stats.entries) {
-      statsString += (' ${item.key}: ${item.value}\n');
-    }
-
-    for (var item in description.entries) {
-      descString += (' ${item.key}: ${item.value}\n');
-    }
-
-    for (var item in cries.entries) {
-      criesString += (' ${item.key}: ${item.value}\n');
-    }
-
-    return 'PokemonInfoModel\nstats:\n$statsString\ndescription:\n$descString\ncries:\n$criesString';
+    return '''
+    PokemonInfoModel(
+      \ndescription:\n${description.toString().replaceAll(',', '\n')}
+      \nstats:\n${stats.toString().replaceAll(',', '\n')}
+      \ncries:\n${cries.toString().replaceAll(',', '\n')}
+      \nevolutionChain:\n${evolutionChain.toString().replaceAll(',', '\n')}
+      \nforms:\n${forms.toString().replaceAll(',', '\n')}
+    )''';
   }
 }

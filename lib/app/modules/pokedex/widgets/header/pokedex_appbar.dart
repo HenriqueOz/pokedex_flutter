@@ -9,10 +9,12 @@ class PokedexAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       automaticallyImplyLeading: false,
       backgroundColor: Colors.white,
+      //* botão principal
       leading: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: IconButton(onPressed: () {}, icon: const Icon(Icons.sort)),
       ),
+      //* botões appbar
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),

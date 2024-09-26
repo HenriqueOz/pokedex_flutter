@@ -8,62 +8,68 @@ import 'package:pokedex_app/app/core/pokemon_data/pokemon_count.dart';
 import 'package:pokedex_app/app/repositories/pokemon_repository.dart';
 
 class PokemonNameListRepository {
-  int _count = 0;
+  int _count = 0; //* registra quantos itens existem na tabela pokemon_name
   final PokemonRepository _pokemonRepository;
 
   PokemonNameListRepository({required PokemonRepository pokemonRepository}) : _pokemonRepository = pokemonRepository;
 
   Future<bool> isNameListLoaded() async {
-    final db = SqliteDatabase.createInstance();
-    final conn = await db.openConnection();
-
     try {
+      final db = SqliteDatabase.createInstance();
+      final conn = await db.openConnection();
+
+      //* contando quantos items existem na tabela pokemon_name
       final res = await conn.rawQuery('''
         SELECT COUNT(pokemon_id) FROM pokemon_name
       ''');
 
       final String numberString = res.first['COUNT(pokemon_id)'].toString();
-      _count = int.parse(numberString);
+      _count = int.parse(numberString); //* definindo a variavel privada _count com o resultado
+
+      debugPrint('------------------------- count pokemon_name: $_count');
 
       return _count == PokemonCount.count;
     } on Exception catch (e, s) {
       const String message = 'Erro ao carregar dados';
       log('Erro ao verificar estado da lista de nomes', error: e, stackTrace: s);
       throw MessageException(message: message);
-    } finally {
-      await conn.close();
-      db.closeConnection();
     }
   }
 
   Future<void> loadNameList() async {
-    final db = SqliteDatabase.createInstance();
-    final conn = await db.openConnection();
-
     try {
+      //* checando se a lista de nomes foi carregada
       final bool loaded = await isNameListLoaded();
 
       if (!loaded) {
+        //* a lista só é deletada se POR ALGUM MOTIVO o número de registros na tabela for maior que _count
         if (_count > PokemonCount.count) {
           deleteNameList();
         }
 
-        final int begin = _count;
-        final int end = PokemonCount.count - begin;
+        //* definindo offset e limit do request
+        final int offset = _count;
+        final int limit = PokemonCount.count - offset;
 
         final model = await _pokemonRepository.getPokemonNameListModel(
-          begin,
-          end,
+          offset,
+          limit,
         );
 
-        int items = 0;
+        int items = 0; //* contador de items que serão carregados
+
+        final db = SqliteDatabase.createInstance();
+        final conn = await db.openConnection();
 
         debugPrint('--------------------- Adding elements to pokemon_names');
+
+        //* adicionando os elementos recebidos do request na tabela
         for (var name in model.nameList) {
           // * Top 10 filmes de terror: Sqlite e o for maldito
           await conn.execute('INSERT INTO pokemon_name VALUES (null, ?)', [name]);
           items++;
         }
+
         debugPrint('--------------------- Insert done in pokemon_names');
         debugPrint('--------------------- $items items added');
       }
@@ -71,36 +77,35 @@ class PokemonNameListRepository {
       const String message = 'Error while loading data';
       log('Erro ao carregar lista de nomes', error: e, stackTrace: s);
       throw MessageException(message: message);
-    } finally {
-      await conn.close();
-      db.closeConnection();
     }
   }
 
   Future<void> deleteNameList() async {
-    final db = SqliteDatabase.createInstance();
-    final conn = await db.openConnection();
     try {
-      conn.rawDelete('Delete * from pokemon_name');
+      final db = SqliteDatabase.createInstance();
+      final conn = await db.openConnection();
+
+      //* limpando a tabela
+      conn.rawDelete('DELETE FROM pokemon_name');
+      _count = 0; //* defindo o _count como 0 !importante
 
       debugPrint('------------------------ pokemon_name table clear');
     } on Exception catch (e, s) {
       const String message = 'Error while loading data';
       log('Erro ao limpar lista de nomes', error: e, stackTrace: s);
       throw MessageException(message: message);
-    } finally {
-      await conn.close();
-      db.closeConnection();
     }
   }
 
   Future<List<String>> searchInNameList(String name) async {
-    final db = SqliteDatabase.createInstance();
-    final conn = await db.openConnection();
-
     try {
+      final db = SqliteDatabase.createInstance();
+      final conn = await db.openConnection();
+
+      //* procurando um nome entregue na função dentro da tabela
       final result = await conn.rawQuery('SELECT name FROM pokemon_name WHERE name LIKE ? || "%"', [name]);
 
+      //* filtrando apenas os nomes dos resultados obtidos e devolvindo uma lista com eles
       final List<String> list = result.map((e) => e['name']).toList().cast<String>();
 
       debugPrint('$list');
@@ -109,9 +114,6 @@ class PokemonNameListRepository {
       const String message = 'Error while searching';
       log('Erro ao buscar na lista de nomes', error: e, stackTrace: s);
       throw MessageException(message: message);
-    } finally {
-      await conn.close();
-      db.closeConnection();
     }
   }
 }

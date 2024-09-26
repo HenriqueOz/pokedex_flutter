@@ -12,14 +12,16 @@ class PokedexSearchInput extends StatefulWidget {
 }
 
 class _PokedexSearchInputState extends State<PokedexSearchInput> {
-  String currentText = '';
+  String currentText = ''; //* armazena o texto atual co controller
   final _searchEC = TextEditingController();
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
+        //* disparando uma pesquisa vazia para a criação a lista
         _searchEC.addListener(_searchListener);
+        context.read<PokedexSearchBloc>().add(PokedexSearchFindName(name: ''));
       },
     );
     super.initState();
@@ -27,7 +29,9 @@ class _PokedexSearchInputState extends State<PokedexSearchInput> {
 
   void _searchListener() {
     if (_searchEC.text != currentText) {
-      currentText = _searchEC.text;
+      //* sempre que meu controller tiver uma string diferente da minha atual
+      currentText = _searchEC.text; //* atualizo minha string atual
+      //* dispara um evento de busca no blocv
       context.read<PokedexSearchBloc>().add(PokedexSearchFindName(name: currentText));
     }
   }
@@ -42,6 +46,7 @@ class _PokedexSearchInputState extends State<PokedexSearchInput> {
   Widget build(BuildContext context) {
     _searchEC.clear();
 
+    //* recebendo a lista de nomes do state no bloc
     return BlocSelector<PokedexSearchBloc, PokedexSearchState, List<String>>(
       selector: (state) {
         if (state is PokedexSearchFetch) {
@@ -50,8 +55,10 @@ class _PokedexSearchInputState extends State<PokedexSearchInput> {
         return [];
       },
       builder: (context, list) {
+        //* input de pesquisa
         return TypeAheadField<String>(
           controller: _searchEC,
+          //* caixa de autocomplete
           decorationBuilder: (context, child) {
             return Material(
               type: MaterialType.card,
@@ -105,16 +112,17 @@ class _PokedexSearchInputState extends State<PokedexSearchInput> {
               ),
             );
           },
+          //* itens da lista
           itemBuilder: (context, name) {
             return ListTile(
               title: Text(name),
             );
           },
           onSelected: (name) {
-            _searchEC.text = name;
+            _searchEC.text = name; //* quando eu seleciono uma opção meu input fica com a string dela
           },
           suggestionsCallback: (search) {
-            return list;
+            return list; //* atualizando a lista para a atual
           },
         );
       },

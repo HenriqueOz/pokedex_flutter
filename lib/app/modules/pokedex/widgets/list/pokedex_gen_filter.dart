@@ -18,21 +18,25 @@ class PokedexGenFilter extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            //* looping para construir um botão para cada valor no meu enum de gerações
             for (int index = 0; index < PokemonGenerationEnum.values.length; index++)
               Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: TextButton(
+                  //* quando pressionando dispara um evento de filtro de geração no bloc
                   onPressed: () {
                     context.read<PokedexBloc>().add(
                           PokedexEventChangeGen(generation: PokemonGenerationEnum.values[index]),
                         );
                   },
+                  //* alternando o tema do botão com base na seleção dele
                   style: selectedGeneration == PokemonGenerationEnum.values[index]
                       ? CustomTheme.secondaryButton.copyWith(
                           backgroundColor: const WidgetStatePropertyAll(CustomTheme.secondaryColor),
                           foregroundColor: const WidgetStatePropertyAll(Colors.white),
                         )
                       : CustomTheme.secondaryButton,
+                  //* label do botão
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text('Gen ${index + 1}'),

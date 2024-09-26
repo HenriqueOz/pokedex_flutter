@@ -70,6 +70,8 @@ class PokedexPokemonCard extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
+                        //* retornando um widget para o segundo tipo do pokemon
+                        //* somente se ele não for null
                         () {
                           if (model.typeSecondary != null) {
                             return Image.asset(

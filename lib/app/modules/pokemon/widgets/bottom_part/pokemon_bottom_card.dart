@@ -44,7 +44,12 @@ class PokemonBottomCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '#${f.format(model.id)}',
+                    () {
+                      if (model.id < 10000) {
+                        return '#${f.format(model.id)}';
+                      }
+                      return 'Form';
+                    }(),
                     style: CustomTheme.title.copyWith(color: model.primaryColor, fontSize: 30),
                   ),
                   //* Tipos
@@ -121,12 +126,12 @@ class PokemonBottomCard extends StatelessWidget {
                   if (state is PokemonInfoFetch) {
                     return state.data;
                   }
-                  return PokemonInfoModel(stats: {}, description: {}, cries: {});
+                  return PokemonInfoModel.empty();
                 },
                 builder: (context, data) {
                   return Visibility(
                     visible: data.description.isNotEmpty,
-                    child: PokemonInfoTabBar(primaryColor: model.primaryColor!, secondaryColor: model.secondaryColor, data: data),
+                    child: PokemonInfoTabBar(mainModel: model, primaryColor: model.primaryColor!, secondaryColor: model.secondaryColor, data: data),
                   );
                 },
               ),

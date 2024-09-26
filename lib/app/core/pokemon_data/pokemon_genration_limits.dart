@@ -1,5 +1,7 @@
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_generation_enum.dart';
 
+//* definindo os limites (boundaries) de cada geração
+//* que serão utilizados na hora do fetch no feed
 class PokemonGenrationLimits {
   static int offset = 0;
   static int limit = 1;

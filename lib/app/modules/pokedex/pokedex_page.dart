@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_generation_enum.dart';
@@ -39,19 +37,23 @@ class _PokedexPageState extends State<PokedexPage> {
   }
 
   void _scrollWatcher() {
+    //* se meu scroll for maior que 300px eu amndo um evento de habilitação de botão de scroll
+    //* caso contrário, mando um evento para desabilitar
     if (scrollController.offset > 300.0) {
       context.read<PokedexScrollBloc>().add(PokedexScrollEventEnable());
     } else {
       context.read<PokedexScrollBloc>().add(PokedexScrollEventDisable());
     }
 
-    if (scrollController.offset >= scrollController.position.maxScrollExtent * .99) {
+    //* quando meu scroll atingir 95% da altura da página eu disparo um evento de load do feed
+    if (scrollController.offset >= scrollController.position.maxScrollExtent * .95) {
       if (canLoad && !hasError) {
         context.read<PokedexBloc>().add(PokedexEventLoad());
       }
     }
   }
 
+  //* função para voltar o scroll da página para o topo
   void _scrollTop() {
     scrollController.animateTo(0, duration: const Duration(milliseconds: 250), curve: Curves.easeInCubic);
   }
@@ -60,6 +62,7 @@ class _PokedexPageState extends State<PokedexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PokedexAppbar(),
+      //* Mostrando o botão só quando o state do bloc retornar que ele está ativo
       floatingActionButton: BlocSelector<PokedexScrollBloc, PokedexScrollState, bool>(
         selector: (state) {
           if (state is PokedexScrollData) {
@@ -69,11 +72,13 @@ class _PokedexPageState extends State<PokedexPage> {
         },
         builder: (context, isActive) {
           return TweenAnimationBuilder(
+            //* animação de crescimento
             tween: Tween<double>(
               begin: isActive ? 0 : 1,
               end: isActive ? 1 : 0,
             ),
             duration: const Duration(milliseconds: 150),
+            //* Botão
             builder: (context, value, child) {
               return Transform.scale(
                 scale: value,

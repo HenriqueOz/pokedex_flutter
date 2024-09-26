@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pokedex_app/app/core/formatter/formatter.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/core/ui/messenger.dart';
 
@@ -65,6 +66,13 @@ class TabDescription extends StatelessWidget {
             style: CustomTheme.body.copyWith(
               fontSize: 14,
             ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            () {
+              final splited = description['generation'].split('-');
+              return '${Formatter.captalize(text: splited[0])} ${splited[1].toUpperCase()}';
+            }(),
           ),
           //* Details section
           Divider(
