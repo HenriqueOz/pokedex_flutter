@@ -2,25 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/modules/splash/bloc/splash_bloc.dart';
-import 'package:pokedex_app/app/repositories/pokemon_name_list_repository.dart';
 
-class Splash extends StatefulWidget {
+class Splash extends StatelessWidget {
   const Splash({super.key});
-
-  @override
-  State<Splash> createState() => _SplashState();
-}
-
-class _SplashState extends State<Splash> {
-  Future<void> _loadNameList() async {
-    await context.read<PokemonNameListRepository>().loadNameList();
-    Navigator.pushNamed(context, '/pokedex/');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
