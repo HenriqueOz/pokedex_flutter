@@ -5,6 +5,6 @@ abstract class PokedexEvent {}
 class PokedexEventLoad extends PokedexEvent {}
 
 class PokedexEventChangeGen extends PokedexEvent {
-  final PokemonGenerationEnum generation;
+  final PokemonGenerationBounds generation;
   PokedexEventChangeGen({required this.generation});
 }

@@ -10,13 +10,15 @@ import 'package:pokedex_app/app/repositories/pokemon_repository.dart';
 class PokemonNameListRepository {
   int _count = 0; //* registra quantos itens existem na tabela pokemon_name
   final PokemonRepository _pokemonRepository;
+  final SqliteDatabase _sqliteDatabase;
 
-  PokemonNameListRepository({required PokemonRepository pokemonRepository}) : _pokemonRepository = pokemonRepository;
+  PokemonNameListRepository({required PokemonRepository pokemonRepository, required SqliteDatabase sqliteDatabase})
+      : _pokemonRepository = pokemonRepository,
+        _sqliteDatabase = sqliteDatabase;
 
   Future<bool> isNameListLoaded() async {
     try {
-      final db = SqliteDatabase.createInstance();
-      final conn = await db.openConnection();
+      final conn = await _sqliteDatabase.openConnection();
 
       //* contando quantos items existem na tabela pokemon_name
       final res = await conn.rawQuery('''
@@ -58,8 +60,7 @@ class PokemonNameListRepository {
 
         int items = 0; //* contador de items que serão carregados
 
-        final db = SqliteDatabase.createInstance();
-        final conn = await db.openConnection();
+        final conn = await _sqliteDatabase.openConnection();
 
         debugPrint('--------------------- Adding elements to pokemon_names');
 
@@ -82,8 +83,7 @@ class PokemonNameListRepository {
 
   Future<void> deleteNameList() async {
     try {
-      final db = SqliteDatabase.createInstance();
-      final conn = await db.openConnection();
+      final conn = await _sqliteDatabase.openConnection();
 
       //* limpando a tabela
       conn.rawDelete('DELETE FROM pokemon_name');
@@ -99,8 +99,7 @@ class PokemonNameListRepository {
 
   Future<List<String>> searchInNameList(String name) async {
     try {
-      final db = SqliteDatabase.createInstance();
-      final conn = await db.openConnection();
+      final conn = await _sqliteDatabase.openConnection();
 
       //* procurando um nome entregue na função dentro da tabela
       final result = await conn.rawQuery('SELECT name FROM pokemon_name WHERE name LIKE ? || "%"', [name]);

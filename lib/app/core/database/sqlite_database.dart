@@ -17,12 +17,17 @@ class SqliteDatabase {
     return _instance!;
   }
 
-  Future<Database> openConnection() async {
+  Future<void> deleteDb() async {
     final String dbPath = await getDatabasesPath();
     final String path = join(dbPath, _databaseName);
 
     //* Perigo
-    // await deleteDatabase(path);
+    await deleteDatabase(path);
+  }
+
+  Future<Database> openConnection() async {
+    final String dbPath = await getDatabasesPath();
+    final String path = join(dbPath, _databaseName);
 
     //* Quando o _database for null uma conexão é aberta
     _database ??= await openDatabase(

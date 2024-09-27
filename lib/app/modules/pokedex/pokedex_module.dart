@@ -17,7 +17,7 @@ class PokedexModule {
       pageBuilder: (context, animation, secondaryAnimation) => MultiBlocProvider(
         providers: [
           Provider(create: (context) => PokemonRepository()),
-          Provider(create: (context) => PokemonNameListRepository(pokemonRepository: context.read())),
+          Provider(create: (context) => PokemonNameListRepository(pokemonRepository: context.read(), sqliteDatabase: context.read())),
           BlocProvider(create: (context) => PokedexBloc(pokemonRepository: context.read<PokemonRepository>())..add(PokedexEventLoad())),
           BlocProvider(create: (context) => PokedexScrollBloc()),
           BlocProvider(create: (context) => PokedexSearchBloc(pokemonNameListRepository: context.read())),

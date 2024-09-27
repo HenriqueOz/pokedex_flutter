@@ -5,7 +5,7 @@ import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_list_bloc/pokedex_bloc.dart';
 
 class PokedexGenFilter extends StatelessWidget {
-  final PokemonGenerationEnum selectedGeneration;
+  final PokemonGenerationBounds selectedGeneration;
 
   const PokedexGenFilter({required this.selectedGeneration, super.key});
 
@@ -19,18 +19,18 @@ class PokedexGenFilter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             //* looping para construir um botão para cada valor no meu enum de gerações
-            for (int index = 0; index < PokemonGenerationEnum.values.length; index++)
+            for (int index = 0; index < PokemonGenerationBounds.values.length; index++)
               Padding(
                 padding: const EdgeInsets.only(right: 10),
                 child: TextButton(
                   //* quando pressionando dispara um evento de filtro de geração no bloc
                   onPressed: () {
                     context.read<PokedexBloc>().add(
-                          PokedexEventChangeGen(generation: PokemonGenerationEnum.values[index]),
+                          PokedexEventChangeGen(generation: PokemonGenerationBounds.values[index]),
                         );
                   },
                   //* alternando o tema do botão com base na seleção dele
-                  style: selectedGeneration == PokemonGenerationEnum.values[index]
+                  style: selectedGeneration == PokemonGenerationBounds.values[index]
                       ? CustomTheme.secondaryButton.copyWith(
                           backgroundColor: const WidgetStatePropertyAll(CustomTheme.secondaryColor),
                           foregroundColor: const WidgetStatePropertyAll(Colors.white),

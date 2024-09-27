@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex_app/app/core/pokemon_data/pokemon_type_chart_calc.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/models/pokemon_info_model.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/modules/pokemon/cubit/pokemon_view_cubit.dart';
-import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_description.dart';
-import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_evolution.dart';
-import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_forms.dart';
-import 'package:pokedex_app/app/modules/pokemon/widgets/tabs/tab_stats.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/tabs/tab_description.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/tabs/tab_evolution.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/tabs/tab_forms.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/tabs/tab_stats.dart';
+import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/tabs/tab_type_chart.dart';
 
 class PokemonInfoTabBar extends StatefulWidget {
   final Color primaryColor;
@@ -27,7 +29,7 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
     const Tab(child: Text('Stats')),
     const Tab(child: Text('Evolution')),
     const Tab(child: Text('Forms')),
-    const Tab(child: Text('Weaknesses')),
+    const Tab(child: Text('Type Chart')),
   ];
   late TabController _tabController;
 
@@ -110,7 +112,16 @@ class _PokemonInfoTabBar extends State<PokemonInfoTabBar> with TickerProviderSta
                     primaryColor: widget.primaryColor,
                   ),
                 ),
-                Container(child: const Text('fffffffffffffffff')),
+                Visibility(
+                  visible: index == 4,
+                  child: TabTypeChart(
+                    primaryColor: widget.mainModel.primaryColor!,
+                    typeChartList: PokemonTypeChartCalc.calcTypeChart(
+                      primaryType: widget.mainModel.typePrimary,
+                      secondaryType: widget.mainModel.typeSecondary,
+                    ),
+                  ),
+                ),
               ],
             );
           },

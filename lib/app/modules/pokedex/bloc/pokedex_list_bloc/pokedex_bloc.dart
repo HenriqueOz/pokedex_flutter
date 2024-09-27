@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:pokedex_app/app/core/exceptions/message_exception.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_generation_enum.dart';
-import 'package:pokedex_app/app/core/pokemon_data/pokemon_genration_limits.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/repositories/pokemon_repository.dart';
 
@@ -13,7 +12,7 @@ part 'pokedex_state.dart';
 
 class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
   final PokemonRepository _pokemonRepository;
-  PokemonGenerationEnum _generation = PokemonGenerationEnum.gen1;
+  PokemonGenerationBounds _generation = PokemonGenerationBounds.gen1;
 
   PokedexBloc({required PokemonRepository pokemonRepository})
       : _pokemonRepository = pokemonRepository,
@@ -23,9 +22,6 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
   }
 
   Future<void> _load(PokedexEventLoad event, Emitter<PokedexState> emit) async {
-    //* Setando a geração que será feito o fetch
-    PokemonGenrationLimits.setGenerationRange(_generation);
-
     final currentState = state;
 
     if (currentState is PokedexStateInit) {
@@ -44,8 +40,8 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
         int toLoad = 10; //* Número de pokemons que serão carregados por scroll
         final int listLength = currentState.pokemonModelList.length;
 
-        final int genLimit = PokemonGenrationLimits.limit;
-        final int offset = PokemonGenrationLimits.offset + listLength;
+        final int genLimit = _generation.limit;
+        final int offset = _generation.offset + listLength;
 
         //* Limitando o toLoad para não ultrapassar o limite da geração
         if ((listLength + toLoad) > genLimit) {
@@ -69,9 +65,6 @@ class PokedexBloc extends Bloc<PokedexEvent, PokedexState> {
     }
   }
 
-  /// carrega uma lista de pokemon model a partir de um ponto de partida offset
-  /// (id da pokedex de partida) e limitando-se a quantidade quantity
-  /// (quantos itens serão carregador a partir do offset)
   Future<List<PokemonModel>> _fetchData({required int offset, required int quantity}) async {
     final List<Future<PokemonModel>> toFetchList = [];
 

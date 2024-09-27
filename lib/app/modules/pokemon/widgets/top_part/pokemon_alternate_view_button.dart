@@ -21,6 +21,7 @@ class PokemonAlternateViewButton extends StatelessWidget {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              //* botões de alteração da view da thumbnail do pokemon entre normal e shiny
               TextButton(
                 onPressed: () {
                   context.read<PokemonViewCubit>().showNorma();

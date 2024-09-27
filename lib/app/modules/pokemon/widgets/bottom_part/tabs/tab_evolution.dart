@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex_app/app/core/formatter/formatter.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/pokemon_variations_list.dart';
@@ -29,7 +30,8 @@ class TabEvolution extends StatelessWidget {
         : Padding(
             padding: const EdgeInsets.symmetric(vertical: 30),
             child: Text(
-              "${mainModel.name} doesn't have evolutions",
+              "${Formatter.captalize(text: mainModel.name)} doesn't have evolutions",
+              textAlign: TextAlign.center,
               style: CustomTheme.pokedexLabels.copyWith(
                 color: mainModel.primaryColor!,
               ),

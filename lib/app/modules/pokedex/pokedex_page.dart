@@ -20,7 +20,7 @@ class PokedexPage extends StatefulWidget {
 
 class _PokedexPageState extends State<PokedexPage> {
   late ScrollController scrollController;
-  PokemonGenerationEnum selectedGeneration = PokemonGenerationEnum.gen1;
+  PokemonGenerationBounds selectedGeneration = PokemonGenerationBounds.gen1;
   bool canLoad = false;
   bool hasError = false;
 
@@ -119,7 +119,7 @@ class _PokedexPageState extends State<PokedexPage> {
                 //
                 //* Listener que atualiza o filtro selecionado
                 //
-                BlocSelector<PokedexBloc, PokedexState, PokemonGenerationEnum>(
+                BlocSelector<PokedexBloc, PokedexState, PokemonGenerationBounds>(
                   selector: (state) {
                     if (state is PokedexStateFetchPokemon) {
                       selectedGeneration = state.generation;
