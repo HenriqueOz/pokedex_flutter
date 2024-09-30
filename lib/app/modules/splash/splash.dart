@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/pokemon_info_tab_bar.dart';
 import 'package:pokedex_app/app/repositories/pokemon_name_list_repository.dart';
 
 class Splash extends StatefulWidget {
