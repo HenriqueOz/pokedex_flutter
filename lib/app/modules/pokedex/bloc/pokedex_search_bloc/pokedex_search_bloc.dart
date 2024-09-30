@@ -12,7 +12,7 @@ class PokedexSearchBloc extends Bloc<PokedexSearchEvent, PokedexSearchState> {
 
   PokedexSearchBloc({required PokemonNameListRepository pokemonNameListRepository})
       : _pokemonNameListRepository = pokemonNameListRepository,
-        super(PokedexSearchFetch(list: const [])) {
+        super(PokedexSearchFetch(list: [])) {
     on<PokedexSearchFindName>(_findName);
   }
 

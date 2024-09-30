@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -18,6 +19,7 @@ class SqliteDatabase {
   }
 
   Future<void> deleteDb() async {
+    debugPrint('------------------------------- Deleting database');
     final String dbPath = await getDatabasesPath();
     final String path = join(dbPath, _databaseName);
 
