@@ -84,6 +84,7 @@ class CustomTheme {
   static final themeData = ThemeData().copyWith(
     textTheme: GoogleFonts.chivoTextTheme(),
     scaffoldBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
+    secondaryHeaderColor: secondaryColor,
     primaryColor: primaryColor,
     splashColor: Colors.grey,
     textSelectionTheme: const TextSelectionThemeData(

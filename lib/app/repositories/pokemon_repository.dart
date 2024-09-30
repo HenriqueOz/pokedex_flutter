@@ -6,17 +6,22 @@ import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/models/pokemon_name_list_model.dart';
 
 class PokemonRepository {
+  final Map<int, PokemonModel> _pokemonModelCache = {};
+
   Future<PokemonModel> getPokemonById({required int id}) async {
     try {
       //* retornando um modelo com base no id
-      final dio = Dio();
-      final response = await dio.get('https://pokeapi.co/api/v2/pokemon/$id');
+      if (!_pokemonModelCache.containsKey(id)) {
+        final dio = Dio();
+        final response = await dio.get('https://pokeapi.co/api/v2/pokemon/$id');
 
-      if (response.statusCode == 200) {
-        return PokemonModel.fromMap(response.data);
-      } else {
-        throw Exception();
+        if (response.statusCode == 200) {
+          _pokemonModelCache[id] = PokemonModel.fromMap(response.data);
+        } else {
+          throw Exception();
+        }
       }
+      return _pokemonModelCache[id]!;
     } on Exception catch (e, s) {
       log('Repository: Erro ao carregar feed', error: e, stackTrace: s);
       throw MessageException(message: 'Error while loading feed');

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:pokedex_app/app/core/pokemon_data/pokemon_regions.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SqliteDatabase {
@@ -59,7 +60,8 @@ class SqliteDatabase {
     batch.execute('''
       CREATE TABLE user (
         user_id INTEGER PRIMARY KEY NOT NULL,
-        username TEXT,
+        username VARCHAR(20) NOT NULL,
+        region TEXT NOT NULL,
         avatar BLOB
       );
     ''');
@@ -69,6 +71,13 @@ class SqliteDatabase {
         pokemon_id INTEGER PRIMARY KEY NOT NULL,
         name TEXT
       );
+    ''');
+
+    batch.execute('''
+      CREATE TABLE region (
+        region_id INTEGER PRIMARY KEY NOT NULL,
+        name TEXT NOT NULL
+      )
     ''');
 
     batch.commit();

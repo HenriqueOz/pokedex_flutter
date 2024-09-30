@@ -11,7 +11,7 @@ class AppModule extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<SqliteDatabase>(
-          create: (context) => SqliteDatabase.createInstance()//..deleteDb(),
+          create: (context) => SqliteDatabase.createInstance(), //..deleteDb(),
         ),
       ],
       child: const AppWidget(),

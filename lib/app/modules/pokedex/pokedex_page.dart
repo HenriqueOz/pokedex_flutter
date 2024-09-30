@@ -6,10 +6,12 @@ import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_scroll_bloc/pokedex_scroll_bloc.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_list_bloc/pokedex_bloc.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/header/pokedex_appbar.dart';
+import 'package:pokedex_app/app/modules/pokedex/widgets/drawer/pokedex_drawer.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/list/pokedex_gen_filter.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/header/pokedex_header.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/list/pokedex_pokemon_card.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/header/search/pokedex_search_bar.dart';
+import 'package:pokedex_app/app/repositories/profile_repository.dart';
 
 class PokedexPage extends StatefulWidget {
   const PokedexPage({super.key});
@@ -27,6 +29,7 @@ class _PokedexPageState extends State<PokedexPage> {
   @override
   void initState() {
     super.initState();
+    _loadDefaultData();
     scrollController = ScrollController()..addListener(_scrollWatcher);
   }
 
@@ -34,6 +37,10 @@ class _PokedexPageState extends State<PokedexPage> {
   void dispose() {
     scrollController.removeListener(_scrollWatcher);
     super.dispose();
+  }
+
+  void _loadDefaultData() async {
+    await context.read<ProfileRepository>().fillDefaultData();
   }
 
   void _scrollWatcher() {
@@ -62,6 +69,7 @@ class _PokedexPageState extends State<PokedexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const PokedexAppbar(),
+      drawer: const PokedexDrawer(),
       //* Mostrando o botão só quando o state do bloc retornar que ele está ativo
       floatingActionButton: BlocSelector<PokedexScrollBloc, PokedexScrollState, bool>(
         selector: (state) {
