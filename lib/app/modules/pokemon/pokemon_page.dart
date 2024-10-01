@@ -27,7 +27,7 @@ class PokemonPage extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: const PokemonAppBar(),
+        appBar: PokemonAppBar(modelId: model.id),
         body: LayoutBuilder(
           builder: (context, constraints) {
             return Column(

@@ -13,11 +13,10 @@ class SplashModule {
       pageBuilder: (context, animation, secondaryAnimation) => MultiBlocProvider(
         providers: [
           Provider(
-            create: (BuildContext context) => PokemonRepository(),
+            create: (BuildContext context) => PokemonRepository(sqliteDatabase: context.read()),
           ),
           Provider(
-            create: (BuildContext context) =>
-                PokemonNameListRepository(pokemonRepository: context.read(), sqliteDatabase: context.read()),
+            create: (BuildContext context) => PokemonNameListRepository(pokemonRepository: context.read(), sqliteDatabase: context.read()),
           ),
           BlocProvider(create: (BuildContext context) => SplashBloc(pokemonNameListRepository: context.read())..add(SplashLoad())),
         ],

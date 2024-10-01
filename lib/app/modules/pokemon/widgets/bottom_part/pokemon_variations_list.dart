@@ -29,6 +29,7 @@ class PokemonVariationsList extends StatelessWidget {
           ],
         ),
         child: Material(
+          clipBehavior: Clip.antiAlias,
           color: Colors.transparent,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           child: InkWell(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
+import 'package:pokedex_app/app/modules/favorites/favorites_module.dart';
 import 'package:pokedex_app/app/modules/pokedex/pokedex_module.dart';
 import 'package:pokedex_app/app/modules/pokemon/pokemon_module.dart';
 import 'package:pokedex_app/app/modules/splash/splash_module.dart';
@@ -18,6 +19,9 @@ class Routers {
         final PokemonModel model = settings?.arguments as PokemonModel;
 
         return PokemonModule.pageBuilder(settings: settings, context: context, model: model);
+
+      case ('/favorites/'):
+        return FavoritesModule.pageBuilder(settings: settings, context: context);
     }
     return null;
   }

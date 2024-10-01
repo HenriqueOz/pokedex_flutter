@@ -40,7 +40,7 @@ class ProfileRepository {
     } on Exception catch (e, s) {
       const String message = 'Erro ao preencher dados padrão das tables';
       log(message, error: e, stackTrace: s);
-      throw MessageException(message: message);
+      throw MessageException(message: 'Error while loading data');
     }
   }
 
@@ -49,13 +49,13 @@ class ProfileRepository {
       final conn = await _sqliteDatabase.openConnection();
 
       final res = await conn.rawQuery('SELECT * FROM user');
-      debugPrint(res.toString());
+      // debugPrint(res.toString());
 
       return UserModel.fromMap(res[0]);
     } on Exception catch (e, s) {
       const String message = 'Erro ao buscar usuário';
       log(message, error: e, stackTrace: s);
-      throw MessageException(message: message);
+      throw MessageException(message: 'Error while loading data');
     }
   }
 }

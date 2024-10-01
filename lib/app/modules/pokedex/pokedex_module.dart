@@ -16,13 +16,27 @@ class PokedexModule {
       settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => MultiBlocProvider(
         providers: [
-          Provider(create: (context) => PokemonRepository()),
-          Provider(create: (context) => PokemonNameListRepository(pokemonRepository: context.read(), sqliteDatabase: context.read())),
+          Provider(
+            create: (context) => PokemonRepository(sqliteDatabase: context.read()),
+          ),
+          Provider(
+            create: (context) => PokemonNameListRepository(pokemonRepository: context.read(), sqliteDatabase: context.read()),
+          ),
           Provider(create: (context) => ProfileRepository(sqliteDatabase: context.read())),
-          BlocProvider(create: (context) => PokedexBloc(pokemonRepository: context.read<PokemonRepository>())..add(PokedexEventLoad())),
-          BlocProvider(create: (context) => PokedexScrollBloc()),
-          BlocProvider(create: (context) => PokedexUserCubit(profileRepository: context.read())..fetchUser()),
-          BlocProvider(create: (context) => PokedexSearchBloc(pokemonNameListRepository: context.read())),
+          BlocProvider(
+            lazy: false,
+            create: (context) => PokedexBloc(pokemonRepository: context.read<PokemonRepository>())..add(PokedexEventLoad()),
+          ),
+          BlocProvider(
+            create: (context) => PokedexScrollBloc(),
+          ),
+          BlocProvider(
+            create: (context) => PokedexUserCubit(profileRepository: context.read())..fetchUser(),
+          ),
+          BlocProvider(
+            lazy: false,
+            create: (context) => PokedexSearchBloc(pokemonNameListRepository: context.read())..add(PokedexSearchFindName(name: '')),
+          ),
         ],
         child: const PokedexPage(),
       ),

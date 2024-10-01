@@ -15,14 +15,22 @@ class PokedexDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: CustomTheme.primaryColor,
-      height: MediaQuery.of(context).size.height * .25,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(begin: Alignment.bottomLeft, end: Alignment.topRight, colors: [
+          HSLColor.fromColor(CustomTheme.primaryColor).withLightness(.65).toColor(),
+          CustomTheme.primaryColor,
+        ], stops: const [
+          0.25,
+          0.25
+        ]),
+      ),
+      height: MediaQuery.of(context).size.height * .2,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
           //* opções do header
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               //* fechar drawer
               IconButton(
@@ -53,30 +61,41 @@ class PokedexDrawerHeader extends StatelessWidget {
                   bytes = const Base64Decoder().convert(blobImage);
                 }
 
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: () {
-                        if (model.blobImage == null) {
-                          return const CachedNetworkImageProvider('https://i1.sndcdn.com/artworks-000193803962-tla7ov-t500x500.jpg');
-                        } else {
-                          return Image.memory(bytes!).image;
-                        }
-                      }(),
-                    ),
-                    Text(
-                      Formatter.captalize(text: model.name),
-                      style: CustomTheme.pokedexLabels.copyWith(
-                        fontSize: 24,
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: () {
+                          if (model.blobImage == null) {
+                            return const CachedNetworkImageProvider('https://i1.sndcdn.com/artworks-000193803962-tla7ov-t500x500.jpg');
+                          } else {
+                            return Image.memory(bytes!).image;
+                          }
+                        }(),
                       ),
-                    ),
-                    Text(
-                      Formatter.captalize(text: model.region),
-                      style: CustomTheme.pokedexLabels,
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              Formatter.captalize(text: model.name),
+                              style: CustomTheme.pokedexLabels.copyWith(
+                                fontSize: 24,
+                              ),
+                            ),
+                            Text(
+                              Formatter.captalize(text: model.region),
+                              style: CustomTheme.pokedexLabels,
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 );
               } else {
                 return const SizedBox.shrink();

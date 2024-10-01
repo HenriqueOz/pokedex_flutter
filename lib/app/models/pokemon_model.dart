@@ -63,7 +63,24 @@ class PokemonModel {
     return model;
   }
 
-  factory PokemonModel.fromJson(String source) => PokemonModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory PokemonModel.fromSqlite(Map<String, Object?> map) {
+    final model = PokemonModel(
+      id: map['pokedex_id'] as int,
+      name: map['name'] as String,
+      typePrimary: map['type_primary'] as String,
+      typeSecondary: map['type_secondary'] as String?,
+      imageUrl: map['image_url'] as String,
+      shinyImageUrl: map['shiny_image_url'] as String,
+    );
+
+    if (model.typeSecondary != null) {
+      model.typeSecondaryIconUrl = 'assets/images/types/${model.typeSecondary}_type_icon.png';
+      model.secondaryColor = PokemonTypeColor.colors[model.typeSecondary];
+    }
+
+    return model;
+  }
+
   @override
   String toString() {
     return '''

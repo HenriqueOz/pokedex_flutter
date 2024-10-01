@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex_app/app/modules/pokemon/cubit/pokemon_favorite_cubit/pokemon_favorite_cubit.dart';
 
 class PokemonAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const PokemonAppBar({super.key});
+  final int modelId;
+
+  const PokemonAppBar({super.key, required this.modelId});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +25,28 @@ class PokemonAppBar extends StatelessWidget implements PreferredSizeWidget {
             icon: const Icon(Icons.arrow_back_ios_new)),
       ),
       actions: [
-        IconButton(
-          onPressed: () {
-            //! Adicionar ou remover favorito
+        BlocSelector<PokemonFavoriteCubit, PokemonFavoriteState, bool>(
+          selector: (state) {
+            if (state is PokemonFavoriteFetch) {
+              return state.isFavorite;
+            }
+            return false;
           },
-          icon: const Icon(
-            Icons.favorite_border,
-            size: 25,
-          ),
+          builder: (context, isFavorite) {
+            return IconButton(
+              onPressed: () {
+                if (isFavorite) {
+                  context.read<PokemonFavoriteCubit>().removeFavorite(id: modelId);
+                } else {
+                  context.read<PokemonFavoriteCubit>().addFavorite(id: modelId);
+                }
+              },
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                size: 25,
+              ),
+            );
+          },
         ),
         Padding(
           padding: const EdgeInsets.only(right: 10),

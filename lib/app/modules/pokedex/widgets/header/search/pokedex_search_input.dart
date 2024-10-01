@@ -19,9 +19,7 @@ class _PokedexSearchInputState extends State<PokedexSearchInput> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        //* disparando uma pesquisa vazia para a criação a lista
         _searchEC.addListener(_searchListener);
-        context.read<PokedexSearchBloc>().add(PokedexSearchFindName(name: ''));
       },
     );
     super.initState();

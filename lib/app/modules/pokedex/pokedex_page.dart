@@ -53,7 +53,7 @@ class _PokedexPageState extends State<PokedexPage> {
     }
 
     //* quando meu scroll atingir 95% da altura da página eu disparo um evento de load do feed
-    if (scrollController.offset >= scrollController.position.maxScrollExtent * .95) {
+    if (scrollController.offset >= scrollController.position.maxScrollExtent * .9) {
       if (canLoad && !hasError) {
         context.read<PokedexBloc>().add(PokedexEventLoad());
       }

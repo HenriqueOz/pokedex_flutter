@@ -87,10 +87,15 @@ class PokedexPokemonCard extends StatelessWidget {
                   //* Número da pokedéx
                   Align(
                     alignment: Alignment.bottomRight,
-                    child: Text(
-                      '#${f.format(model.id)}',
-                      style: CustomTheme.pokedexLabels,
-                    ),
+                    child: model.id < 10000
+                        ? Text(
+                            '#${f.format(model.id)}',
+                            style: CustomTheme.pokedexLabels,
+                          )
+                        : const Text(
+                            'Form',
+                            style: CustomTheme.pokedexLabels,
+                          ),
                   ),
                   //* Imagem do pokemon
                   Align(
