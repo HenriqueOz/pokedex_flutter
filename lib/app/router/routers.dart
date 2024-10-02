@@ -4,6 +4,7 @@ import 'package:pokedex_app/app/modules/favorites/favorites_module.dart';
 import 'package:pokedex_app/app/modules/pokedex/pokedex_module.dart';
 import 'package:pokedex_app/app/modules/pokemon/pokemon_module.dart';
 import 'package:pokedex_app/app/modules/splash/splash_module.dart';
+import 'package:pokedex_app/app/modules/type_combination/type_combination_module.dart';
 
 class Routers {
   //* instância que cuida das rotas
@@ -19,6 +20,9 @@ class Routers {
         final PokemonModel model = settings?.arguments as PokemonModel;
 
         return PokemonModule.pageBuilder(settings: settings, context: context, model: model);
+
+      case ('/type_combination/'):
+        return TypeCombinationModule.pageBuilder(settings: settings);
 
       case ('/favorites/'):
         return FavoritesModule.pageBuilder(settings: settings, context: context);

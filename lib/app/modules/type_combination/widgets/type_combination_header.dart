@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 
-class FavoritesHeader extends StatelessWidget {
-  const FavoritesHeader({super.key});
+class TypeCombinationHeader extends StatelessWidget {
+  const TypeCombinationHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,12 +11,12 @@ class FavoritesHeader extends StatelessWidget {
       children: [
         SizedBox(height: 40),
         Text(
-          'Favorites',
+          'Type Combination',
           style: CustomTheme.title,
         ),
         SizedBox(height: 10),
         Text(
-          'See all pokemon you tagged as favorite.',
+          'See the weaknesses and resistances of any type combination',
           style: CustomTheme.body,
         ),
       ],

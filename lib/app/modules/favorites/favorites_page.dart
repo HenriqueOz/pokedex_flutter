@@ -25,9 +25,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
   }
 
   void _scrollListener() async {
-    if (_scrollController.offset > _scrollController.position.maxScrollExtent * .9) {
-      context.read<FavoritesBloc>().add(FavoritesLoad());
-      await Future.delayed(const Duration(seconds: 1));
+    final state = context.read<FavoritesBloc>().state;
+
+    if (state is! FavoritesError) {
+      if (_scrollController.offset > _scrollController.position.maxScrollExtent * .9) {
+        context.read<FavoritesBloc>().add(FavoritesLoad());
+        await Future.delayed(const Duration(seconds: 1));
+      }
     }
   }
 

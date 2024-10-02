@@ -33,7 +33,7 @@ class PokedexDrawer extends StatelessWidget {
                     PokedexDrawerButton(routeName: '', label: 'Edit Profile', iconData: Icons.edit),
                     PokedexDrawerButton(routeName: '/favorites/', label: 'Favorites', iconData: Icons.favorite),
                     PokedexDrawerButton(routeName: '', label: 'Team Builder', iconData: Icons.groups),
-                    PokedexDrawerButton(routeName: '', label: 'Type Combination', iconData: Icons.add_circle_outline_sharp),
+                    PokedexDrawerButton(routeName: '/type_combination/', label: 'Type Combination', iconData: Icons.add_circle_outline_sharp),
                   ],
                 ),
               ),
