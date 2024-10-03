@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex_app/app/models/user_model.dart';
+import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_user_cubit/pokedex_user_cubit.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/drawer/pokedex_drawer_button.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/drawer/pokedex_drawer_header.dart';
 
@@ -27,13 +30,24 @@ class PokedexDrawer extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: const Column(
+                child: Column(
                   children: [
-                    SizedBox(height: 30),
-                    PokedexDrawerButton(routeName: '', label: 'Edit Profile', iconData: Icons.edit),
-                    PokedexDrawerButton(routeName: '/favorites/', label: 'Favorites', iconData: Icons.favorite),
-                    PokedexDrawerButton(routeName: '', label: 'Team Builder', iconData: Icons.groups),
-                    PokedexDrawerButton(routeName: '/type_combination/', label: 'Type Combination', iconData: Icons.add_circle_outline_sharp),
+                    const SizedBox(height: 30),
+                    BlocSelector<PokedexUserCubit, PokedexUserStates, UserModel>(selector: (state) {
+                      if (state is PokedexUserFetch) {
+                        return state.userModel;
+                      }
+                      return UserModel.empty();
+                    }, builder: (context, user) {
+                      return PokedexDrawerButton(
+                        routeName: '/edit_profile/',
+                        label: 'Edit Profile',
+                        iconData: Icons.edit,
+                        arguments: user,
+                      );
+                    }),
+                    const PokedexDrawerButton(routeName: '/favorites/', label: 'Favorites', iconData: Icons.favorite),
+                    const PokedexDrawerButton(routeName: '/type_combination/', label: 'Type Combination', iconData: Icons.add_circle_outline_sharp),
                   ],
                 ),
               ),

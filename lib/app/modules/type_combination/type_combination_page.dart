@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/app/modules/type_combination/widgets/type_combination_app_bar.dart';
 import 'package:pokedex_app/app/modules/type_combination/widgets/type_combination_buttons.dart';
+import 'package:pokedex_app/app/modules/type_combination/widgets/type_combination_chart.dart';
 import 'package:pokedex_app/app/modules/type_combination/widgets/type_combination_header.dart';
 import 'package:pokedex_app/app/modules/type_combination/widgets/type_combination_selection_box.dart';
 
@@ -22,6 +23,7 @@ class TypeCombinationPage extends StatelessWidget {
               const SizedBox(height: 25),
               const TypeCombinationGenerateButton(),
               _divider(),
+              const TypeCombinationChart(),
             ],
           ),
         ),

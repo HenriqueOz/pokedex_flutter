@@ -10,12 +10,18 @@ class TypeCombinationSelectionBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20),
-      child: BlocSelector<TypeCombinationCubit, TypeCombinationState, TypeCombinationFetch>(
+      child: BlocSelector<TypeCombinationCubit, TypeCombinationState, TypeCombinationState>(
         selector: (state) {
-          return state as TypeCombinationFetch;
+          return state;
         },
         builder: (context, state) {
-          final List<String> typeList = state.typeList;
+          final List<String> typeList;
+
+          if (state is TypeCombinationFetch) {
+            typeList = state.typeList;
+          } else {
+            typeList = [];
+          }
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,

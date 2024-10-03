@@ -5,8 +5,9 @@ class PokedexDrawerButton extends StatelessWidget {
   final String routeName;
   final String label;
   final IconData iconData;
+  final Object? arguments;
 
-  const PokedexDrawerButton({super.key, required this.routeName, required this.label, required this.iconData});
+  const PokedexDrawerButton({super.key, required this.routeName, required this.label, required this.iconData, this.arguments});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class PokedexDrawerButton extends StatelessWidget {
           child: ListTile(
             onTap: () async {
               Scaffold.of(context).closeDrawer();
-              Navigator.pushNamed(context, routeName);
+              Navigator.pushNamed(context, routeName, arguments: arguments);
             },
             splashColor: Colors.grey.shade300,
             leading: Icon(

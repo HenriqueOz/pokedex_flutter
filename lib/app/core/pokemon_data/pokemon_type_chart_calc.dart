@@ -36,6 +36,14 @@ class PokemonTypeChartCalc {
         );
       }
 
+      typeChartList.sort(
+        (t1, t2) {
+          var multiplier1 = t1.entries.first.value;
+          var multiplier2 = t2.entries.first.value;
+
+          return multiplier2.compareTo(multiplier1);
+        },
+      );
       // debugPrint('${typeChartMap.toString()}\n');
 
       return typeChartList;

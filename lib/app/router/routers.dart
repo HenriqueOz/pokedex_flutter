@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
+import 'package:pokedex_app/app/models/user_model.dart';
+import 'package:pokedex_app/app/modules/edit_profile/edit_profile_module.dart';
 import 'package:pokedex_app/app/modules/favorites/favorites_module.dart';
 import 'package:pokedex_app/app/modules/pokedex/pokedex_module.dart';
 import 'package:pokedex_app/app/modules/pokemon/pokemon_module.dart';
@@ -23,6 +25,11 @@ class Routers {
 
       case ('/type_combination/'):
         return TypeCombinationModule.pageBuilder(settings: settings);
+
+      case ('/edit_profile/'):
+        final UserModel user = settings?.arguments as UserModel;
+
+        return EditProfileModule.pageBuilder(settings: settings, user: user);
 
       case ('/favorites/'):
         return FavoritesModule.pageBuilder(settings: settings, context: context);

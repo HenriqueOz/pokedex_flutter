@@ -9,7 +9,7 @@ class FavoritesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocSelector<FavoritesBloc, FavoritesStates, List<PokemonModel>>(
+    return BlocSelector<FavoritesBloc, FavoritesStates, List>(
       selector: (state) {
         if (state is FavoritesFetch) {
           return state.list;

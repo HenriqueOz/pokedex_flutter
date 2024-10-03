@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex_app/app/core/ui/custom_theme.dart';
-import 'package:pokedex_app/app/modules/type_combination/cubit/type_combination_cubit.dart';
 
 class TypeCombinationAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TypeCombinationAppBar({super.key});

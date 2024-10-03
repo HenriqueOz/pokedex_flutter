@@ -46,11 +46,11 @@ dependencies:
   equatable: ^2.0.5
   bloc_concurrency: ^0.2.5
   cached_network_image: ^3.4.1
-  shimmer: ^3.0.0
   page_transition: ^2.1.0
   audioplayers: ^6.1.0
   flutter_typeahead: ^5.2.0
   fraction: ^5.0.3
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

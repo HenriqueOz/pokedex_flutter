@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:pokedex_app/app/core/database/sqlite_database.dart';
 import 'package:pokedex_app/app/core/exceptions/message_exception.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_regions.dart';
@@ -11,6 +14,22 @@ class ProfileRepository {
 
   ProfileRepository({required SqliteDatabase sqliteDatabase}) : _sqliteDatabase = sqliteDatabase;
 
+  Future<List<String>> getRegions() async {
+    try {
+      final conn = await _sqliteDatabase.openConnection();
+
+      final res = await conn.rawQuery('SELECT * FROM region');
+      // debugPrint(res.toString());
+      final list = res.map((e) => e['name']).toList().cast<String>();
+
+      return list;
+    } on Exception catch (e, s) {
+      const String message = 'Erro ao buscar regiões';
+      log(message, error: e, stackTrace: s);
+    }
+    return [];
+  }
+
   Future<void> fillDefaultData() async {
     try {
       final conn = await _sqliteDatabase.openConnection();
@@ -20,8 +39,16 @@ class ProfileRepository {
       final resUser = await conn.rawQuery('SELECT COUNT(user_id) FROM user');
 
       if (resUser[0]['COUNT(user_id)'] == 0) {
+        final response = await Dio().get(
+          'https://i1.sndcdn.com/artworks-000193803962-tla7ov-t500x500.jpg',
+          options: Options(
+            responseType: ResponseType.bytes,
+          ),
+        );
+        final base64 = base64Encode(response.data);
+
         batch.execute('''
-          INSERT INTO user VALUES (null, 'red', 'kanto', null);
+          INSERT INTO user VALUES (null, 'red', 'kanto', '$base64');
         ''');
       }
 

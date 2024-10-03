@@ -21,6 +21,10 @@ class UserModel {
     );
   }
 
+  factory UserModel.empty() {
+    return UserModel(name: '', region: '', blobImage: null);
+  }
+
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       name: map['username'] as String,

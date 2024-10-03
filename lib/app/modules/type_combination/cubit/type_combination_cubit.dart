@@ -12,6 +12,13 @@ class TypeCombinationCubit extends Cubit<TypeCombinationState> {
   TypeCombinationCubit() : super(TypeCombinationInit());
 
   void reloadList() {
+    final currentState = state;
+
+    List<Map<String, double>> typeChart = [];
+    if (currentState is TypeCombinationFetch) {
+      typeChart = currentState.typeChart;
+    }
+
     final List<String> typeList = PokemonTypes.types.where((type) {
       return type != _primaryType && type != _secondaryType;
     }).toList();
@@ -19,7 +26,7 @@ class TypeCombinationCubit extends Cubit<TypeCombinationState> {
     emit(
       TypeCombinationFetch(
         typeList: typeList,
-        typeChart: [],
+        typeChart: typeChart,
       ),
     );
   }
@@ -66,6 +73,16 @@ class TypeCombinationCubit extends Cubit<TypeCombinationState> {
           TypeCombinationFetch(
             typeList: currentState.typeList,
             typeChart: typeChart,
+          ),
+        );
+      }
+    } else {
+      final currentState = state;
+      if (currentState is TypeCombinationFetch) {
+        emit(
+          TypeCombinationFetch(
+            typeList: currentState.typeList,
+            typeChart: [],
           ),
         );
       }

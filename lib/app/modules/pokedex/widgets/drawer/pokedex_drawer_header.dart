@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/formatter/formatter.dart';
@@ -45,61 +43,53 @@ class PokedexDrawerHeader extends StatelessWidget {
             ],
           ),
           //* imagem do user
-          BlocSelector<PokedexUserCubit, PokedexUserStates, UserModel?>(
+          BlocSelector<PokedexUserCubit, PokedexUserStates, UserModel>(
             selector: (state) {
               if (state is PokedexUserFetch) {
                 return state.userModel;
               }
-              return null;
+              return UserModel.empty();
             },
             builder: (context, model) {
-              if (model != null) {
-                final String blobImage = model.blobImage ?? '';
-                Uint8List? bytes;
+              return Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundImage: () {
+                        final blobString = model.blobImage ?? '';
+                        Uint8List bytes;
 
-                if (blobImage.isNotEmpty) {
-                  bytes = const Base64Decoder().convert(blobImage);
-                }
+                        if (model.blobImage != null) {
+                          bytes = base64Decode(blobString);
 
-                return Padding(
-                  padding: const EdgeInsets.only(left: 20.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundImage: () {
-                          if (model.blobImage == null) {
-                            return const CachedNetworkImageProvider('https://i1.sndcdn.com/artworks-000193803962-tla7ov-t500x500.jpg');
-                          } else {
-                            return Image.memory(bytes!).image;
-                          }
-                        }(),
+                          return Image.memory(bytes).image;
+                        }
+                      }(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            Formatter.captalize(text: model.name),
+                            style: CustomTheme.pokedexLabels.copyWith(
+                              fontSize: 24,
+                            ),
+                          ),
+                          Text(
+                            Formatter.captalize(text: model.region),
+                            style: CustomTheme.pokedexLabels,
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              Formatter.captalize(text: model.name),
-                              style: CustomTheme.pokedexLabels.copyWith(
-                                fontSize: 24,
-                              ),
-                            ),
-                            Text(
-                              Formatter.captalize(text: model.region),
-                              style: CustomTheme.pokedexLabels,
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              } else {
-                return const SizedBox.shrink();
-              }
+                    )
+                  ],
+                ),
+              );
             },
           ),
         ],

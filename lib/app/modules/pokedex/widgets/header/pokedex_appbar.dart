@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex_app/app/core/ui/custom_theme.dart';
-import 'package:pokedex_app/app/repositories/profile_repository.dart';
 
 class PokedexAppbar extends StatelessWidget implements PreferredSizeWidget {
   const PokedexAppbar({super.key});
