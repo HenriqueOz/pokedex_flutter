@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme {
-  static const primaryColor = Color.fromARGB(255, 248, 107, 107);
+  static const primaryColor = Color.fromRGBO(248, 107, 107, 1);
   static const secondaryColor = Color(0xFF635555);
 
   static const TextStyle title = TextStyle(

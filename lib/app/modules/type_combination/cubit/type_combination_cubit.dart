@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_type_chart_calc.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_types.dart';

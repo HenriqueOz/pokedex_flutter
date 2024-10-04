@@ -51,6 +51,8 @@ dependencies:
   flutter_typeahead: ^5.2.0
   fraction: ^5.0.3
   image_picker: ^1.1.2
+  flutter_launcher_icons: ^0.14.1
+  flutter_native_splash: ^2.4.1
 
 dev_dependencies:
   flutter_test:
