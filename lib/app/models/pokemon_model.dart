@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_color.dart';
@@ -61,14 +62,16 @@ class PokemonModel {
     return model;
   }
 
-  factory PokemonModel.fromSqlite(Map<String, Object?> map) {
+  factory PokemonModel.fromHive({required String hiveJson}) {
+    final Map<String, dynamic> map = jsonDecode(hiveJson);
+
     final model = PokemonModel(
-      id: map['pokedex_id'] as int,
+      id: map['id'] as int,
       name: map['name'] as String,
-      typePrimary: map['type_primary'] as String,
-      typeSecondary: map['type_secondary'] as String?,
-      imageUrl: map['image_url'] as String,
-      shinyImageUrl: map['shiny_image_url'] as String,
+      typePrimary: map['typePrimary'] as String,
+      typeSecondary: map['typeSecondary'] as String?,
+      imageUrl: map['imageUrl'] as String,
+      shinyImageUrl: map['shinyImageUrl'] as String,
     );
 
     if (model.typeSecondary != null) {
@@ -78,6 +81,19 @@ class PokemonModel {
 
     return model;
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'typePrimary': typePrimary,
+      'typeSecondary': typeSecondary,
+      'imageUrl': imageUrl,
+      'shinyImageUrl': shinyImageUrl,
+    };
+  }
+
+  String toJson() => jsonEncode(toMap());
 
   @override
   String toString() {

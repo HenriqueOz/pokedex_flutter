@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 
 class PokemonInfoModel {
@@ -66,6 +67,30 @@ class PokemonInfoModel {
       evolutionChain: evolutionChain,
       forms: forms,
     );
+  }
+
+  factory PokemonInfoModel.fromHive({required String hiveJson}) {
+    final Map<String, dynamic> map = jsonDecode(hiveJson);
+
+    return PokemonInfoModel(
+      cries: map['cries'].map((key, entry) => MapEntry(key, entry)).cast<String, String?>(),
+      description: map['description'] as Map<String, dynamic>,
+      evolutionChain: (map['evolutionChain'] as List).map((e) => PokemonModel.fromHive(hiveJson: jsonEncode(e))).toList().cast<PokemonModel>(),
+      forms: (map['forms'] as List).map((e) => PokemonModel.fromHive(hiveJson: jsonEncode(e))).toList().cast<PokemonModel>(),
+      stats: map['stats'].cast<String, int>(),
+    );
+  }
+
+  String toJson() => jsonEncode(toMap());
+
+  Map<String, dynamic> toMap() {
+    return {
+      'stats': stats,
+      'description': description,
+      'cries': cries,
+      'forms': forms.map((e) => e.toMap()).toList(),
+      'evolutionChain': evolutionChain.map((e) => e.toMap()).toList(),
+    };
   }
 
   @override
