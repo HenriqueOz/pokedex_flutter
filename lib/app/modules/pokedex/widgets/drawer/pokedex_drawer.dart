@@ -5,8 +5,23 @@ import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_user_cubit/pokedex_
 import 'package:pokedex_app/app/modules/pokedex/widgets/drawer/pokedex_drawer_button.dart';
 import 'package:pokedex_app/app/modules/pokedex/widgets/drawer/pokedex_drawer_header.dart';
 
-class PokedexDrawer extends StatelessWidget {
+class PokedexDrawer extends StatefulWidget {
   const PokedexDrawer({super.key});
+
+  @override
+  State<PokedexDrawer> createState() => _PokedexDrawerState();
+}
+
+class _PokedexDrawerState extends State<PokedexDrawer> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        context.read<PokedexUserCubit>().fetchUser();
+      },
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

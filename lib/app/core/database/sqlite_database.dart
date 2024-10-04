@@ -61,7 +61,7 @@ class SqliteDatabase {
         user_id INTEGER PRIMARY KEY NOT NULL,
         username VARCHAR(20) NOT NULL,
         region TEXT NOT NULL,
-        avatar BLOB
+        avatar BLOB NOT NULL
       );
     ''');
 

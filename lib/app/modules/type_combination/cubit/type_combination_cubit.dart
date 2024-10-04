@@ -60,7 +60,7 @@ class TypeCombinationCubit extends Cubit<TypeCombinationState> {
 
   void generateChart() {
     if (_primaryType != null || _secondaryType != null) {
-      debugPrint('primary: $_primaryType secondary: $_secondaryType');
+      //debugPrint('primary: $_primaryType secondary: $_secondaryType');
       final typeChart = PokemonTypeChartCalc.calcTypeChart(
         primaryType: _primaryType,
         secondaryType: _secondaryType,
@@ -68,7 +68,7 @@ class TypeCombinationCubit extends Cubit<TypeCombinationState> {
 
       final currentState = state;
       if (currentState is TypeCombinationFetch) {
-        debugPrint(typeChart.toString());
+        //debugPrint(typeChart.toString());
         emit(
           TypeCombinationFetch(
             typeList: currentState.typeList,

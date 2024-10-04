@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/modules/pokedex/bloc/pokedex_scroll_bloc/pokedex_scroll_bloc.dart';
@@ -74,35 +76,38 @@ class _PokedexPageState extends State<PokedexPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PokedexAppbar(),
-      drawer: const PokedexDrawer(),
-      floatingActionButton: PokedexFloatingButton(onClick: _scrollTop),
-      body: SingleChildScrollView(
-        controller: scrollController,
-        physics: const ScrollPhysics(), //* Precisa disso aqui pra definir como scroll padrão
-        child: const Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 30),
-                PokedexHeader(),
-                PokedexSearchBar(),
-                Divider(
-                  height: 40,
-                  endIndent: 80,
-                  indent: 80,
-                  thickness: .5,
-                ),
-                PokedexFilterUpdate(),
-                PokedexGrid(),
-                PokedexLoader(),
-                PokedexErrorButton(),
-                SizedBox(height: 60),
-              ],
-            ),
-          ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: const PokedexAppbar(),
+        drawer: const PokedexDrawer(),
+        floatingActionButton: PokedexFloatingButton(onClick: _scrollTop),
+        body: SingleChildScrollView(
+          controller: scrollController,
+          physics: const ScrollPhysics(), //* Precisa disso aqui pra definir como scroll padrão
+          child: const Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 30),
+                  PokedexHeader(),
+                  PokedexSearchBar(),
+                  Divider(
+                    height: 40,
+                    endIndent: 80,
+                    indent: 80,
+                    thickness: .5,
+                  ),
+                  PokedexFilterUpdate(),
+                  PokedexGrid(),
+                  PokedexLoader(),
+                  PokedexErrorButton(),
+                  SizedBox(height: 60),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

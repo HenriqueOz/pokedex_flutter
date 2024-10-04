@@ -74,10 +74,19 @@ class PokedexDrawerHeader extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            Formatter.captalize(text: model.name),
-                            style: CustomTheme.pokedexLabels.copyWith(
-                              fontSize: 24,
+                          FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxWidth: 200,
+                                minWidth: 1,
+                              ),
+                              child: Text(
+                                Formatter.captalize(text: model.name),
+                                style: CustomTheme.pokedexLabels.copyWith(
+                                  fontSize: 24,
+                                ),
+                              ),
                             ),
                           ),
                           Text(

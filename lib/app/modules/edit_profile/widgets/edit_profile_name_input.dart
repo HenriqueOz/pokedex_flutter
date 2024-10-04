@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 
 class EditProfileNameInput extends StatelessWidget {
@@ -13,8 +14,20 @@ class EditProfileNameInput extends StatelessWidget {
       onTapOutside: (event) {
         FocusScope.of(context).requestFocus(FocusNode());
       },
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(30),
+      ],
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Name is required';
+        }
+        return null;
+      },
       decoration: const InputDecoration(
-        label: Text('Name'),
+        label: Text(
+          'Name',
+          style: TextStyle(color: Colors.black),
+        ),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),

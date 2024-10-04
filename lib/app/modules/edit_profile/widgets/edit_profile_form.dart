@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
+import 'package:pokedex_app/app/core/ui/messenger.dart';
 import 'package:pokedex_app/app/modules/edit_profile/cubit/edit_profile_cubit.dart';
 import 'package:pokedex_app/app/modules/edit_profile/widgets/edit_profile_dropdown.dart';
 import 'package:pokedex_app/app/modules/edit_profile/widgets/edit_profile_name_input.dart';
@@ -64,11 +65,20 @@ class _EditProfileFormState extends State<EditProfileForm> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (_nameController.text != widget.name || _regionController.text != widget.region) {
+                  final isValid = _formKey.currentState?.validate() ?? false;
+
+                  if (isValid) {
                     context.read<EditProfileCubit>().updateUser(
                           name: _nameController.text,
                           region: _regionController.text,
                         );
+
+                    Messenger.of(context).showMessage(
+                      'Profile edited',
+                      Colors.white,
+                      CustomTheme.primaryColor,
+                    );
+                    Navigator.pop(context);
                   }
                 },
                 style: CustomTheme.primaryButton,

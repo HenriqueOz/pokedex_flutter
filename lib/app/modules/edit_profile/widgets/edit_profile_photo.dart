@@ -49,15 +49,16 @@ class EditProfilePhoto extends StatelessWidget {
                 if (bytes != null) {
                   return Image.memory(
                     bytes,
-                    height: 50,
                   );
                 } else {
-                  Uint8List newImageBytes = const Base64Decoder().convert(blobImage);
-                  return Image.memory(
-                    newImageBytes,
-                    height: 50,
-                  );
+                  if (blobImage != null) {
+                    Uint8List newImageBytes = const Base64Decoder().convert(blobImage);
+                    return Image.memory(
+                      newImageBytes,
+                    );
+                  }
                 }
+                return const SizedBox.shrink();
               } else {
                 return const SizedBox.shrink();
               }

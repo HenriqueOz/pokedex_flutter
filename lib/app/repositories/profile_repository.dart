@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:pokedex_app/app/core/database/sqlite_database.dart';
 import 'package:pokedex_app/app/core/exceptions/message_exception.dart';
 import 'package:pokedex_app/app/core/pokemon_data/pokemon_regions.dart';
@@ -60,8 +58,8 @@ class ProfileRepository {
         }
       }
 
-      debugPrint(resUser.toString());
-      debugPrint(resRegion.toString());
+      // debugPrint(resUser.toString());
+      // debugPrint(resRegion.toString());
 
       batch.commit();
     } on Exception catch (e, s) {
@@ -79,6 +77,33 @@ class ProfileRepository {
       // debugPrint(res.toString());
 
       return UserModel.fromMap(res[0]);
+    } on Exception catch (e, s) {
+      const String message = 'Erro ao buscar usuário';
+      log(message, error: e, stackTrace: s);
+      throw MessageException(message: 'Error while loading data');
+    }
+  }
+
+  Future<void> updateUser({required String name, required String region, required String blobImage}) async {
+    try {
+      final conn = await _sqliteDatabase.openConnection();
+
+      await conn.rawUpdate(
+        '''
+        UPDATE user
+        SET
+          username = ?,
+          region = ?,
+          avatar = ?
+        WHERE
+          user_id = 1
+        ''',
+        [
+          name,
+          region,
+          blobImage,
+        ],
+      );
     } on Exception catch (e, s) {
       const String message = 'Erro ao buscar usuário';
       log(message, error: e, stackTrace: s);

@@ -16,10 +16,13 @@ class EditProfileHeader extends StatelessWidget {
         TextButton(
           onPressed: () async {
             final picker = ImagePicker();
-            final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+            final XFile? image = await picker.pickImage(
+              source: ImageSource.gallery,
+              imageQuality: 50,
+            );
 
             if (image != null) {
-              debugPrint(image.name);
+              //debugPrint(image.name);
               context.read<EditProfileCubit>().changeImage(bytes: await image.readAsBytes());
             }
           },
