@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pokedex_app/app/core/database/sqlite_database.dart';
 import 'package:pokedex_app/app/models/pokemon_info_model.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
 import 'package:pokedex_app/app/models/pokemon_name_list_model.dart';
@@ -30,7 +31,7 @@ void main() {
         () async {
           // getting bulbassaur model instance
           int id = 10143;
-          final PokemonModel model = await PokemonRepository().getPokemonById(id: id);
+          final PokemonModel model = await PokemonRepository(sqliteDatabase: SqliteDatabase.createInstance()).getPokemonById(id: id);
           debugPrint(model.toString());
 
           expect(model, isInstanceOf<PokemonModel>());
@@ -39,7 +40,7 @@ void main() {
       test(
         'get a reponse from the api and return a pokemon info model',
         () async {
-          final model = await PokemonRepository().getPokemonInfoById(id: 386);
+          final model = await PokemonRepository(sqliteDatabase: SqliteDatabase.createInstance()).getPokemonInfoById(id: 386);
 
           debugPrint(model.toString());
 
@@ -49,7 +50,7 @@ void main() {
       test(
         'get a response from the api and return a pokemon name list model',
         () async {
-          final model = await PokemonRepository().getPokemonNameListModel(0, 100);
+          final model = await PokemonRepository(sqliteDatabase: SqliteDatabase.createInstance()).getPokemonNameListModel(0, 100);
 
           debugPrint(model.toString());
 
