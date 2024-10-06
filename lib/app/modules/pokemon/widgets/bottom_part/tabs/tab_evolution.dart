@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/app/core/formatter/formatter.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
@@ -18,6 +19,10 @@ class TabEvolution extends StatefulWidget {
 class _TabEvolutionState extends State<TabEvolution> {
   @override
   void didChangeDependencies() {
+    for (var element in widget.list) {
+      precacheImage(CachedNetworkImageProvider(element.imageUrl), context);
+      precacheImage(CachedNetworkImageProvider(element.shinyImageUrl), context);
+    }
     super.didChangeDependencies();
   }
 
@@ -31,7 +36,7 @@ class _TabEvolutionState extends State<TabEvolution> {
               shrinkWrap: true,
               itemCount: widget.list.length,
               itemBuilder: (context, index) {
-                final PokemonModel model = widget.list[index];
+                final model = widget.list[index];
 
                 return PokemonVariationsList(mainModel: widget.mainModel, model: model);
               },

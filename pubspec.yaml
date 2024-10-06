@@ -53,11 +53,6 @@ dependencies:
   image_picker: ^1.1.2
   flutter_launcher_icons: ^0.14.1
   flutter_native_splash: ^2.4.1
-  isar_flutter_libs:
-    git:
-      url: https://github.com/MrLittleWhite/isar_flutter_libs.git
-  path_provider: ^2.1.4
-  hive: ^2.2.3
 
 dev_dependencies:
   flutter_test:
