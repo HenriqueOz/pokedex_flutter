@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pokedex_app/app/core/formatter/formatter.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
