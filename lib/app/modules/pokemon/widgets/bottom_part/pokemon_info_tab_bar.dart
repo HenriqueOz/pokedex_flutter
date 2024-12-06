@@ -4,7 +4,7 @@ import 'package:pokedex_app/app/core/pokemon_data/pokemon_type_chart_calc.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/models/pokemon_info_model.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
-import 'package:pokedex_app/app/modules/pokemon/cubit/pokemon_view_cubit/pokemon_view_cubit.dart';
+import 'package:pokedex_app/app/modules/pokemon/bloc/pokemon_view_cubit/pokemon_view_cubit.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/tabs/tab_description.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/tabs/tab_evolution.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/tabs/tab_forms.dart';

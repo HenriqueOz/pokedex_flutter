@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:pokedex_app/app/core/ui/custom_theme.dart';
 import 'package:pokedex_app/app/models/pokemon_info_model.dart';
 import 'package:pokedex_app/app/models/pokemon_model.dart';
-import 'package:pokedex_app/app/modules/pokemon/bloc/pokemon_info_bloc.dart';
+import 'package:pokedex_app/app/modules/pokemon/bloc/pokemon_info_bloc/pokemon_info_bloc.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/pokemon_info_tab_bar.dart';
 import 'package:pokedex_app/app/modules/pokemon/widgets/bottom_part/pokemon_type_cards.dart';
 

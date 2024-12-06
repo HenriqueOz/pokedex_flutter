@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex_app/app/modules/pokemon/cubit/pokemon_favorite_cubit/pokemon_favorite_cubit.dart';
+import 'package:pokedex_app/app/modules/pokemon/bloc/pokemon_favorite_cubit/pokemon_favorite_cubit.dart';
 
 class PokemonAppBar extends StatelessWidget implements PreferredSizeWidget {
   final int modelId;

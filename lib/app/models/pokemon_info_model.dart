@@ -19,7 +19,6 @@ class PokemonInfoModel {
   }
 
   factory PokemonInfoModel.fromMap(Map<String, dynamic> map) {
-    //* Pegandos os stats no map
     final List<int> statsValues = map['stats'].map((value) => value['base_stat']).toList().cast<int>();
     final List<String> statsNames = map['stats'].map((value) => value['stat']['name']).toList().cast<String>();
     final Map<String, int> stats = {};
@@ -28,19 +27,15 @@ class PokemonInfoModel {
       stats[statsNames[i]] = statsValues[i];
     }
 
-    //* Pegando os cries
     final Map<String, String?> cries = {
       'latest': map['cries']['latest'] as String?,
       'legacy': map['cries']['legacy'] as String?,
     };
 
-    //* pegando a evolution chain
     final List<PokemonModel> evolutionChain = map['chain_list'];
 
-    //* pegando as formas
     final List<PokemonModel> forms = map['forms_list'];
 
-    //* Pegando a description do map
     final Map<String, dynamic> description = {
       'generation': map['generation']['name'] as String,
       'height': map['height'] as int?,
@@ -49,11 +44,10 @@ class PokemonInfoModel {
       'capture_rate': map['capture_rate'] as int?,
       'evolution_chain': map['evolution_chain']['url'] as String,
       'pokedex_entry': () {
-        // * filtrando os resultados de entries por somente os que tiverem em ingles
         final List<dynamic> nameList = map['flavor_text_entries'].where((e) => e['language']['name'] == 'en').toList();
-        // pegando o resultado mais recente (último da lista)
+
         String? entry = nameList.last['flavor_text'];
-        // removendo a formatação que vem no texto
+
         entry = entry?.replaceAll('\n', ' ');
         return entry;
       }(),

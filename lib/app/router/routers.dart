@@ -9,11 +9,10 @@ import 'package:pokedex_app/app/modules/splash/splash_module.dart';
 import 'package:pokedex_app/app/modules/type_combination/type_combination_module.dart';
 
 class Routers {
-  //* instância que cuida das rotas
   static onGenerateRoutes(RouteSettings? settings, BuildContext context) {
     switch (settings?.name) {
       case ('/'):
-        return SplashModule.pageBuilder(settings: settings); //* passar settings para funções de navegação com nome funcionarem
+        return SplashModule.pageBuilder(settings: settings);
 
       case ('/pokedex/'):
         return PokedexModule.pageBuilder(settings: settings);

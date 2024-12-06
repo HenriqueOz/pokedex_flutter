@@ -1,7 +1,4 @@
-//* instância que cuida de formatações de texto
-
 class Formatter {
-  //* transformas todas as letras seguidas de um espaço em uppercase
   static String captalize({required String text}) {
     if (text.isEmpty) return '';
 

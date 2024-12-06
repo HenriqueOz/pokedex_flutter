@@ -52,11 +52,11 @@ class PokemonRepository {
 
       final responseDescription = await dio.get('https://pokeapi.co/api/v2/pokemon-species/$specieName');
 
-      final Map<String, dynamic> map = {};
-      map.addAll(responseStats.data);
-      map.addAll(responseDescription.data);
+      final Map<String, dynamic> pokemonData = {};
+      pokemonData.addAll(responseStats.data);
+      pokemonData.addAll(responseDescription.data);
 
-      final String evolutionChainUrl = map['evolution_chain']['url'];
+      final String evolutionChainUrl = pokemonData['evolution_chain']['url'];
       final responseEvolutionChain = await dio.get(evolutionChainUrl);
 
       final chain = responseEvolutionChain.data;
@@ -87,7 +87,7 @@ class PokemonRepository {
         modelList.addAll(list);
       }
 
-      final List<dynamic> varietiesList = map['varieties'];
+      final List<dynamic> varietiesList = pokemonData['varieties'];
 
       final List<dynamic> varietiesPokemonList = varietiesList.where(
         (e) {
@@ -109,14 +109,14 @@ class PokemonRepository {
         }
       }
 
-      map.addAll(
+      pokemonData.addAll(
         {
           'forms_list': formsList,
           'chain_list': modelList,
         },
       );
 
-      return PokemonInfoModel.fromMap(map);
+      return PokemonInfoModel.fromMap(pokemonData);
     } on Exception catch (e, s) {
       const String message = 'Error while loading data';
       log(message, error: e, stackTrace: s);

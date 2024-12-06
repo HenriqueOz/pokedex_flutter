@@ -11,8 +11,6 @@ class SqliteDatabase {
 
   SqliteDatabase._();
 
-  //* Regra para impedir mais de uma instância do database
-  //* Único constructor público para gerar a instância
   factory SqliteDatabase.createInstance() {
     _instance ??= SqliteDatabase._();
     return _instance!;
@@ -23,7 +21,6 @@ class SqliteDatabase {
     final String dbPath = await getDatabasesPath();
     final String path = join(dbPath, _databaseName);
 
-    //* Perigo
     await deleteDatabase(path);
   }
 
@@ -31,7 +28,6 @@ class SqliteDatabase {
     final String dbPath = await getDatabasesPath();
     final String path = join(dbPath, _databaseName);
 
-    //* Quando o _database for null uma conexão é aberta
     _database ??= await openDatabase(
       path,
       version: _version,

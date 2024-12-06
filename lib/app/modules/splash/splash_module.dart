@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex_app/app/core/database/sqlite_database.dart';
 import 'package:pokedex_app/app/modules/splash/bloc/splash_bloc.dart';
 import 'package:pokedex_app/app/modules/splash/splash.dart';
 import 'package:pokedex_app/app/repositories/pokemon_name_list_repository.dart';
@@ -13,12 +14,14 @@ class SplashModule {
       pageBuilder: (context, animation, secondaryAnimation) => MultiBlocProvider(
         providers: [
           Provider(
-            create: (BuildContext context) => PokemonRepository(sqliteDatabase: context.read()),
+            create: (BuildContext context) => PokemonRepository(sqliteDatabase: context.read<SqliteDatabase>()),
           ),
           Provider(
-            create: (BuildContext context) => PokemonNameListRepository(pokemonRepository: context.read(), sqliteDatabase: context.read()),
+            create: (BuildContext context) =>
+                PokemonNameListRepository(pokemonRepository: context.read<PokemonRepository>(), sqliteDatabase: context.read()),
           ),
-          BlocProvider(create: (BuildContext context) => SplashBloc(pokemonNameListRepository: context.read())..add(SplashLoad())),
+          BlocProvider(
+              create: (BuildContext context) => SplashBloc(pokemonNameListRepository: context.read<PokemonNameListRepository>())..add(SplashLoad())),
         ],
         child: const Splash(),
       ),
